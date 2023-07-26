@@ -1,66 +1,60 @@
-#[derive(Debug)]
-enum ComplexOperationError {
-    DivideByZero,
-}
-
 #[derive(Debug, Clone)]
 struct ComplexNumber {
 	a: f32,
     b: f32
 }
+impl ComplexNumber {
+    fn add ( &mut self, to_add: &ComplexNumber ) -> &Self {
+        let real = self.a + to_add.a;
+        let imaginary = self.b + to_add.b;
+        
+        self
+    }
+    fn conjugate( &self ) -> Self {
+        Self {
+            a: self.a,
+            b: self.b * -1f32
+        }
+    }
+    fn divide ( &mut self, to_divide: ComplexNumber ) -> Option<&Self> {
+        if self.a == 0f32 && to_divide.b == 0f32 {
+            return None;
+        }
+        let a = self.a;
+        let b = self.b;
+        let c = to_divide.a;
+        let d = to_divide.b;
+    
+        self.a = ( a * c + b * d ) / ( c.powi(2) + d.powi(2) );
+        self.b = ( b * c - a * d) / ( c.powi(2) + d.powi(2) );
+
+        Some(self)
+    }
+    fn modulus ( &self ) -> f32 {
+        ( self.a.powi(2) + self.b.powi(2) ).sqrt()
+    }
+    fn exp ( &mut self ) -> &Self {
+        self.a = self.a.exp() * self.b.cos();
+        self.b = self.a.exp() * self.b.sin();
+
+        self
+    }
+    fn to_polar( &self ) -> ComplexPolarNumber {
+        let r = self.modulus();
+        let theta = ( self.b ).atan2( self.a );
+        ComplexPolarNumber {
+            r,
+            theta
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 struct ComplexPolarNumber {
     r: f32,
     theta: f32
 }
 
-fn complex_addition ( c1: &ComplexNumber, c2: &ComplexNumber ) -> ComplexNumber {
-    let real = c1.a + c2.a;
-    let imaginary = c1.b + c2.b;
-    
-    ComplexNumber {
-        a: real,
-        b: imaginary
-    }
-}
-fn complex_conjugate ( c1: &mut ComplexNumber ) {
-    c1.b *= -1.;
-}
-fn complex_divide ( c1: ComplexNumber, c2: ComplexNumber ) -> Result<ComplexNumber, ComplexOperationError> {
-    if c2.a == 0f32 && c2.b == 0f32 {
-        return Err(ComplexOperationError::DivideByZero);
-    }
-    let a = c1.a;
-    let b = c1.b;
-    let c = c2.a;
-    let d = c2.b;
-
-    let real = ( a * c + b * d ) / ( c.powi(2) + d.powi(2) );
-    let imaginary = ( b * c - a * d) / ( c.powi(2) + d.powi(2) );
-    Ok(ComplexNumber {
-        a: real,
-        b: imaginary
-    })
-}
-fn complex_modulus ( c1: &ComplexNumber ) -> f32 {
-    ( c1.a.powi(2) + c1.b.powi(2) ).sqrt()
-}
-fn complex_exponent_e ( c1: ComplexNumber ) -> ComplexNumber {
-    let real      = c1.a.exp() * c1.b.cos();
-    let imaginary = c1.a.exp() * c1.b.sin();
-    ComplexNumber {
-        a: real,
-        b: imaginary
-    }
-}
-fn cartesian_to_polar ( c1: ComplexNumber ) -> ComplexPolarNumber {
-    let r = complex_modulus( &c1 );
-    let theta = ( c1.b ).atan2( c1.a );
-    ComplexPolarNumber {
-        r,
-        theta
-    }
-}
 fn polar_to_cartesian ( c1: ComplexPolarNumber ) -> ComplexNumber {
     let a = c1.r * c1.theta.cos();
     let b = c1.r * c1.theta.sin();
@@ -90,7 +84,7 @@ fn polar_complex_multiplication ( c1: ComplexPolarNumber, c2: ComplexPolarNumber
     }
 }
 fn complex_exponent_arbitrary ( c1: ComplexNumber, c2: ComplexNumber ) -> ComplexNumber {
-    let c1_polar = cartesian_to_polar(c1);
+    let c1_polar = c1.to_polar();
 
     let r = c1_polar.r;
     let theta = c1_polar.theta;
@@ -147,7 +141,7 @@ impl Matrice {
         }
         for row in 0..self.value.len() {
             for col in 0..self.value[row].len() {
-                self.value[row][col] = complex_addition( &self.value[row][col], &to_add.value[row][col] );
+                self.value[row][col].add( &to_add.value[row][col] );
             }
         }
     }
