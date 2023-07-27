@@ -10,7 +10,7 @@ impl ComplexNumber {
         
         self
     }
-    fn conjugate( &self ) -> Self {
+    fn conjugate ( &self ) -> Self {
         Self {
             a: self.a,
             b: self.b * -1f32
@@ -39,13 +39,35 @@ impl ComplexNumber {
 
         self
     }
-    fn to_polar( &self ) -> ComplexPolarNumber {
+    fn to_polar ( &self ) -> ComplexPolarNumber {
         let r = self.modulus();
         let theta = ( self.b ).atan2( self.a );
         ComplexPolarNumber {
             r,
             theta
         }
+    }
+    fn arbitrary_exp ( &mut self, to_exp: ComplexNumber ) -> &Self {
+        let base_as_polar = self.to_polar();
+
+        let r = base_as_polar.r;
+        let theta = base_as_polar.theta;
+
+        if r == 0f32 {
+            // prolly unnessecary but i'm tired
+            self.a = 0f32;
+            self.b = 0f32;
+
+            return self;
+        }
+
+        let c = to_exp.a;
+        let d = to_exp.b;
+
+        self.a = ( c * r.ln() - d * theta ).exp() * ( c * theta + d * r.ln() ).cos();
+        self.b = ( c * r.ln() - d * theta ).exp() * ( c * theta + d * r.ln() ).sin();
+
+        self
     }
 }
 
@@ -54,59 +76,37 @@ struct ComplexPolarNumber {
     r: f32,
     theta: f32
 }
-
-fn polar_to_cartesian ( c1: ComplexPolarNumber ) -> ComplexNumber {
-    let a = c1.r * c1.theta.cos();
-    let b = c1.r * c1.theta.sin();
-    ComplexNumber {
-        a,
-        b
-    }
-}
-fn polar_complex_multiplication ( c1: ComplexPolarNumber, c2: ComplexPolarNumber ) -> ComplexPolarNumber {
-    let mut r = c1.r * c2.r;
-    let mut theta = c1.theta + c2.theta;
-
-    if r < 0f32 {
-        r *= -1f32;
-        theta += std::f32::consts::PI;
-    }
-    while theta > std::f32::consts::PI {
-        theta -= std::f32::consts::TAU;
-    }
-    while theta < -std::f32::consts::PI {
-        theta += std::f32::consts::TAU;
-    }
-
-    ComplexPolarNumber {
-        r,
-        theta
-    }
-}
-fn complex_exponent_arbitrary ( c1: ComplexNumber, c2: ComplexNumber ) -> ComplexNumber {
-    let c1_polar = c1.to_polar();
-
-    let r = c1_polar.r;
-    let theta = c1_polar.theta;
-
-    if r == 0f32 {
-        return ComplexNumber {
-            a: 0f32,
-            b: 0f32
+impl ComplexPolarNumber {
+    fn to_cartesian( &self ) -> ComplexNumber {
+        let a = self.r * self.theta.cos();
+        let b = self.r * self.theta.sin();
+        ComplexNumber {
+            a,
+            b
         }
     }
+    fn multiply ( &mut self, to_mult: ComplexPolarNumber ) -> &Self {
+        let mut r     = self.r * to_mult.r;
+        let mut theta = self.theta + to_mult.theta;
+    
+        if r < 0f32 {
+            r *= -1f32;
+            theta += std::f32::consts::PI;
+        }
+        while theta > std::f32::consts::PI {
+            theta -= std::f32::consts::TAU;
+        }
+        while theta < -std::f32::consts::PI {
+            theta += std::f32::consts::TAU;
+        }
 
-    let c = c2.a;
-    let d = c2.b;
-
-    let real = ( c * r.ln() - d * theta ).exp() * ( c * theta + d * r.ln() ).cos();
-    let imaginary = ( c * r.ln() - d * theta ).exp() * ( c * theta + d * r.ln() ).sin();
-
-    ComplexNumber {
-        a: real,
-        b: imaginary
+        self.r = r;
+        self.theta = theta;
+    
+        self
     }
 }
+
 
 
 struct Matrice {
