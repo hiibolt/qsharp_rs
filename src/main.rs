@@ -1,7 +1,16 @@
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 struct ComplexNumber {
 	a: f32,
     b: f32
+}
+impl std::fmt::Debug for ComplexNumber {
+    fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
+        let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
+
+        write!(f, "({} {} {}i)", self.a, operator, self.b )?;
+
+        Ok(())
+    }
 }
 impl ComplexNumber {
     fn add ( &mut self, to_add: &ComplexNumber ) -> &Self {
@@ -148,10 +157,18 @@ impl Matrice {
 }
 impl std::fmt::Debug for Matrice {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
-        write!(f, "{}x{}\n", self.rows, self.cols )?;
+        write!(f, "Complex Matrix: {}x{}\n", self.rows, self.cols )?;
+        let mut row_divider: String = String::new();
         for row in &self.value {
-            write!(f, "{}\n", row.into_iter().map(|i| format!("{} +{}i", i.a, i.b)).collect::<Vec<String>>().join(", ") )?;
+            let stringified_row = row
+                .into_iter()
+                .map(|i| format!("{:?}",i))
+                .collect::<Vec<String>>()
+                .join(" | ");
+            row_divider = vec!["-"; stringified_row.chars().count() + 4 ].join("");
+            write!(f, "{}\n| {} |\n", row_divider, stringified_row )?;
         }
+        write!(f, "{}", row_divider);
         Ok(())
     }
 }
