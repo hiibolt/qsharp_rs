@@ -29,7 +29,7 @@ impl std::fmt::Debug for Matrice {
     }
 }
 impl Matrice {
-    pub fn new(value: Vec<Vec<ComplexNumber>>) -> Self {
+    pub fn new (value: Vec<Vec<ComplexNumber>>) -> Self {
         if !value.iter().all(|i| i.len() == value[0].len()) {
             panic!("Matrix is not two-dimensional! Ensure all rows are equal in length.");
         }
@@ -41,7 +41,7 @@ impl Matrice {
             cols
         }
     }
-    pub fn from_dimensions( rows: usize, cols: usize ) -> Self {
+    pub fn from_dimensions ( rows: usize, cols: usize ) -> Self {
         let row: Vec<ComplexNumber> = vec![ComplexNumber { a: 0f32, b: 0f32 }; cols];
         let mut ret: Vec<Vec<ComplexNumber>> = Vec::new();
         for _ in 0..rows {
@@ -49,14 +49,25 @@ impl Matrice {
         }
         Matrice::new(ret)
     }
-    pub fn add( &mut self, to_add: Matrice ) {
+    pub fn add ( &mut self, to_add: Matrice ) -> &Self {
         if self.rows != to_add.rows || self.cols != to_add.cols {
             panic!("Matrix size {}x{} doesn't match the base size {}x{}", to_add.rows, to_add.cols, self.rows, self.cols);
         }
         for row in 0..self.value.len() {
             for col in 0..self.value[row].len() {
-                self.value[row][col].add( &to_add.value[row][col] );
+                self.value[row][col].add(&to_add.value[row][col]);
             }
         }
+
+        self
+    }
+    pub fn scalar_mult ( &mut self, to_mult: f32 ) -> &Self {
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col].mult(to_mult);
+            }
+        }
+
+        self
     }
 }

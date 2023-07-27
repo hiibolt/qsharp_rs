@@ -19,6 +19,12 @@ impl ComplexNumber {
         
         self
     }
+    pub fn mult ( &mut self, to_mult: f32 ) -> &Self {
+        self.a *= to_mult;
+        self.b *= to_mult;
+
+        self
+    }
     pub fn conjugate ( &self ) -> Self {
         Self {
             a: self.a,
@@ -94,7 +100,7 @@ impl ComplexPolarNumber {
             b
         }
     }
-    pub fn multiply ( &mut self, to_mult: ComplexPolarNumber ) -> &Self {
+    pub fn mult ( &mut self, to_mult: ComplexPolarNumber ) -> &Self {
         let mut r     = self.r * to_mult.r;
         let mut theta = self.theta + to_mult.theta;
     
