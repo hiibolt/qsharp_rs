@@ -8,13 +8,13 @@ use complex::{
 use matrix::Matrice;
 
 fn main() {
-    let mut matrix = Matrice::new(vec![
+    let matrix_1 = Matrice::new(vec![
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ]]);
 
-    matrix.add(Matrice::new(vec![
+    let matrix_2 = Matrice::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 1f32, b: 1f32} ],
-        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 1f32, b: 1f32} ]]));
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 1f32, b: 1f32} ]]);
     
-    println!("{:?}", matrix);
+    println!("{:?}", matrix_1.matrix_mult(matrix_2));
 }
