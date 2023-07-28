@@ -102,10 +102,8 @@ pub struct ComplexPolarNumber {
     r: f32,
     theta: f32
 }
-impl std::fmt::Debug for ComplexNumber {
+impl std::fmt::Debug for ComplexPolarNumber {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
-        let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
-
         write!(f, "({} units, {} rads)", self.r, self.theta )?;
 
         Ok(())
