@@ -13,15 +13,26 @@ impl std::fmt::Debug for ComplexNumber {
     }
 }
 impl ComplexNumber {
-    pub fn add ( &mut self, to_add: &ComplexNumber ) -> &Self {
+    pub fn add ( &mut self, to_add: ComplexNumber ) -> &Self {
         self.a += to_add.a;
         self.b += to_add.b;
         
         self
     }
-    pub fn mult ( &mut self, to_mult: f32 ) -> &Self {
+    pub fn scalar_mult ( &mut self, to_mult: f32 ) -> &Self {
         self.a *= to_mult;
         self.b *= to_mult;
+
+        self
+    }
+    pub fn mult ( &mut self, to_mult: ComplexNumber ) -> &Self {
+        let a = self.a;
+        let b = self.b;
+        let c = to_mult.a;
+        let d = to_mult.b;
+
+        self.a = a * c - b * d;
+        self.b = b * c + a * d;
 
         self
     }
@@ -86,10 +97,19 @@ impl ComplexNumber {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ComplexPolarNumber {
     r: f32,
     theta: f32
+}
+impl std::fmt::Debug for ComplexNumber {
+    fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
+        let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
+
+        write!(f, "({} units, {} rads)", self.r, self.theta )?;
+
+        Ok(())
+    }
 }
 impl ComplexPolarNumber {
     pub fn to_cartesian( &self ) -> ComplexNumber {
