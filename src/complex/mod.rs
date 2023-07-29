@@ -19,7 +19,7 @@ impl std::fmt::Debug for ComplexNumber {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
         let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
 
-        write!(f, "({} {} {}i)", self.a, operator, self.b);
+        write!(f, "({} {} {}i)", self.a, operator, self.b.abs());
         Ok(())
     }
 }

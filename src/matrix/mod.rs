@@ -146,10 +146,10 @@ impl Matrix {
         let c = self.value[1][0].clone();
         let d = self.value[1][1].clone();
         
-        self.value[0][0] = d;
-        self.value[0][1] = b * -1f32;
-        self.value[1][0] = c * -1f32;
-        self.value[1][1] = a;
+        self.value[0][0] = d / determinant.clone();
+        self.value[0][1] = b * -1f32 / determinant.clone();
+        self.value[1][0] = c * -1f32 / determinant.clone();
+        self.value[1][1] = a / determinant;
 
         self
     }
