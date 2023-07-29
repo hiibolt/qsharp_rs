@@ -110,4 +110,14 @@ impl Matrice {
 
         end_result
     }
+    pub fn determinant ( &self ) -> f32 {
+        if self.cols != 2 || self.rows != 2 {
+            todo!();
+        }
+        let a = self.value[0][0];
+        let b = self.value[0][1];
+        let c = self.value[1][0];
+
+        (a * d) - (b * c)
+    }
 }
