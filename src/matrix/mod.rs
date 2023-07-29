@@ -173,4 +173,8 @@ impl Matrix {
         }
         self
     }
+    pub fn adjunct ( &mut self ) -> &Self {
+        self.transpose();
+        self.conjugate()
+    }
 }

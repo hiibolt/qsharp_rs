@@ -41,6 +41,7 @@ fn main() {
     matrix_4.transpose();
     println!("Transposed: {:?}\n", matrix_4);
 
+
     // Matrice Conjugation
     let mut matrix_5 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
@@ -48,4 +49,13 @@ fn main() {
     
     matrix_5.conjugate();
     println!("Conjugated: {:?}\n", matrix_5);
+
+
+    // Matrice Adjunction
+    let mut matrix_6 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: -1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    matrix_6.adjunct();
+    println!("Adjuncted: {:?}\n", matrix_6);
 }
