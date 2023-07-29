@@ -119,13 +119,19 @@ impl Matrice {
 
         (a * d) - (b * c)
     }
-    pub fn invert ( &mut self ) {
-        let a = &self.value[0][0];
-        let b = &self.value[0][1];
-        let c = &self.value[1][0];
-        let d = &self.value[1][1];
+    pub fn invert ( &mut self ) -> &Self {
+        let determinant = self.determinant();
+
+        let a = self.value[0][0].clone();
+        let b = self.value[0][1].clone();
+        let c = self.value[1][0].clone();
+        let d = self.value[1][1].clone();
         
-        //self.value[]
-        todo!();
+        self.value[0][0] = d;
+        self.value[0][1] = b * -1f32;
+        self.value[1][0] = c * -1f32;
+        self.value[1][1] = a;
+
+        self
     }
 }
