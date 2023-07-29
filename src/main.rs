@@ -58,4 +58,12 @@ fn main() {
     
     matrix_6.adjunct();
     println!("Adjuncted: {:?}\n", matrix_6);
+
+
+    // Unitary Verification
+    let mut matrix_7 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    println!("Is unitary: {}\n", matrix_7.unitary());
 }

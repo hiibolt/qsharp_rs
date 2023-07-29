@@ -10,7 +10,7 @@ use std::ops::{
     DivAssign
 };
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct ComplexNumber {
 	pub a: f32,
     pub b: f32

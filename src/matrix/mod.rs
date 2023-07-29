@@ -10,7 +10,7 @@ use std::ops::{
     Mul
 };
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Matrix {
     value: Vec<Vec<ComplexNumber>>,
     rows: usize,
@@ -107,6 +107,12 @@ impl Mul<Matrix> for Matrix {
     }
 }
 impl Matrix {
+    pub fn IDENTITY () -> Self {
+        Matrix::new(vec![
+            vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32} ],
+            vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32} ]])
+    }
+
     pub fn new (value: Vec<Vec<ComplexNumber>>) -> Self {
         if !value.iter().all(|i| i.len() == value[0].len()) {
             panic!("Matrix is not two-dimensional! Ensure all rows are equal in length.");
@@ -176,5 +182,8 @@ impl Matrix {
     pub fn adjunct ( &mut self ) -> &Self {
         self.transpose();
         self.conjugate()
+    }
+    pub fn unitary ( &self ) -> bool {
+        (self.clone() * self.clone().adjunct().clone()) == Matrix::IDENTITY()
     }
 }
