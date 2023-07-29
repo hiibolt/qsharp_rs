@@ -55,7 +55,7 @@ impl Matrice {
         }
         for row in 0..self.value.len() {
             for col in 0..self.value[row].len() {
-                self.value[row][col].add(to_add.value[row][col].clone());
+                self.value[row][col] += to_add.value[row][col].clone();
             }
         }
 
@@ -64,7 +64,7 @@ impl Matrice {
     pub fn scalar_mult ( &mut self, to_mult: f32 ) -> &Self {
         for row in 0..self.value.len() {
             for col in 0..self.value[row].len() {
-                self.value[row][col].scalar_mult(to_mult);
+                self.value[row][col] *= to_mult;
             }
         }
 
@@ -93,16 +93,14 @@ impl Matrice {
                     .clone()
                     .into_iter()
                     .enumerate()
-                    .map(|(ind, mut i)| { // Multiply each row by element of equivalent index in each intersecting column
-                        i.mult(col[ind].clone());
-                        i
+                    .map(|(ind, i)| { // Multiply each row by element of equivalent index in each intersecting column
+                        i.clone() * col[ind].clone()
                     })
                     .reduce(|total: ComplexNumber, i: ComplexNumber| { // Add each element of the now row to create the final dot product
-                        total.clone().add(i.clone()).clone()
+                        total + i
                     })
                     .expect("Should never happen given the matrices make it past first check")
                     .clone();
-
 
                 end_result.value[r][c] = dot_product;
             }
@@ -110,23 +108,24 @@ impl Matrice {
 
         end_result
     }
-    pub fn determinant ( &self ) -> f32 {
+    pub fn determinant ( &self ) -> ComplexNumber {
         if self.cols != 2 || self.rows != 2 {
             todo!();
         }
-        let a = self.value[0][0];
-        let b = self.value[0][1];
-        let c = self.value[1][0];
-        let d = self.value[1][1];
+        let a = self.value[0][0].clone();
+        let b = self.value[0][1].clone();
+        let c = self.value[1][0].clone();
+        let d = self.value[1][1].clone();
 
-        (a.mult(d)) - (b.mult(c))
+        (a * d) - (b * c)
     }
     pub fn invert ( &mut self ) {
-        let a = self.value[0][0];
-        let b = self.value[0][1];
-        let c = self.value[1][0];
-        let d = self.value[1][1];
+        let a = &self.value[0][0];
+        let b = &self.value[0][1];
+        let c = &self.value[1][0];
+        let d = &self.value[1][1];
         
-        self.value[]
+        //self.value[]
+        todo!();
     }
 }

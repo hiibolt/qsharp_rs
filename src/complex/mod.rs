@@ -1,3 +1,15 @@
+use std::ops::{
+    Add,
+    Sub,
+    Mul,
+    Div,
+
+    AddAssign,
+    SubAssign,
+    MulAssign,
+    DivAssign
+};
+
 #[derive(Clone)]
 pub struct ComplexNumber {
 	pub a: f32,
@@ -7,54 +19,128 @@ impl std::fmt::Debug for ComplexNumber {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
         let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
 
-        write!(f, "({} {} {}i)", self.a, operator, self.b )?;
-
+        write!(f, "({} {} {}i)", self.a, operator, self.b);
         Ok(())
     }
 }
-impl ComplexNumber {
-    pub fn add ( &mut self, to_add: ComplexNumber ) -> &Self {
+impl Add for ComplexNumber {
+    type Output = Self;
+
+    fn add ( self, to_add: Self ) -> Self {
+        Self { a: self.a + to_add.a, b: self.b + to_add.b }
+    }
+}
+impl AddAssign for ComplexNumber {
+    fn add_assign ( &mut self, to_add: Self ) {
         self.a += to_add.a;
         self.b += to_add.b;
-        
-        self
     }
-    pub fn scalar_mult ( &mut self, to_mult: f32 ) -> &Self {
-        self.a *= to_mult;
-        self.b *= to_mult;
+}
+impl Sub for ComplexNumber {
+    type Output = Self;
 
-        self
+    fn sub ( self, to_sub: Self ) -> Self {
+        Self { a: self.a - to_sub.a, b: self.b - to_sub.b }
     }
-    pub fn mult ( &mut self, to_mult: ComplexNumber ) -> &Self {
+}
+impl SubAssign for ComplexNumber {
+    fn sub_assign ( &mut self, to_sub: Self ) {
+        self.a -= to_sub.a;
+        self.b -= to_sub.b;
+    }
+}
+impl Mul<f32> for ComplexNumber {
+    type Output = Self;
+
+    fn mul ( self, to_mul: f32 ) -> Self {
+        Self { a: self.a * to_mul, b: self.b * to_mul }
+    }
+}
+impl Mul<ComplexNumber> for ComplexNumber{
+    type Output = Self;
+
+    fn mul ( self, to_mul: Self ) -> Self {
         let a = self.a;
         let b = self.b;
-        let c = to_mult.a;
-        let d = to_mult.b;
+        let c = to_mul.a;
+        let d = to_mul.b;
+
+        Self {
+            a: a * c - b * d,
+            b: b * c + a * d
+        }
+    }
+}
+impl MulAssign<f32> for ComplexNumber {
+    fn mul_assign ( &mut self, to_mul: f32 ) {
+        self.a *= to_mul;
+        self.b *= to_mul;
+    }
+}
+impl MulAssign<ComplexNumber> for ComplexNumber {
+    fn mul_assign ( &mut self, to_mul: ComplexNumber ) {
+        let a = self.a;
+        let b = self.b;
+        let c = to_mul.a;
+        let d = to_mul.b;
 
         self.a = a * c - b * d;
         self.b = b * c + a * d;
-
-        self
     }
+}
+impl Div<f32> for ComplexNumber {
+    type Output = Self;
+
+    fn div ( self, to_div: f32 ) -> Self {
+        Self { a: self.a / to_div, b: self.b / to_div }
+    }
+}
+impl Div<ComplexNumber> for ComplexNumber {
+    type Output = Self;
+
+    fn div ( self, to_div: ComplexNumber ) -> Self {
+        if self.a == 0f32 && to_div.b == 0f32 {
+            panic!("Denominator cannot be zero!");
+        }
+
+        let a = self.a;
+        let b = self.b;
+        let c = to_div.a;
+        let d = to_div.b;
+    
+        Self {
+            a: ( a * c + b * d ) / ( c.powi(2) + d.powi(2) ),
+            b: ( b * c - a * d) / ( c.powi(2) + d.powi(2) )
+        }
+    }
+}
+impl DivAssign<f32> for ComplexNumber {
+    fn div_assign ( &mut self, to_div: f32 ) {
+        self.a /= to_div;
+        self.b /= to_div;
+    }
+}
+impl DivAssign<ComplexNumber> for ComplexNumber {
+    fn div_assign ( &mut self, to_div: ComplexNumber ) {
+        if self.a == 0f32 && to_div.b == 0f32 {
+            panic!("Denominator cannot be zero!");
+        }
+
+        let a = self.a;
+        let b = self.b;
+        let c = to_div.a;
+        let d = to_div.b;
+    
+        self.a = ( a * c + b * d ) / ( c.powi(2) + d.powi(2) );
+        self.b = ( b * c - a * d) / ( c.powi(2) + d.powi(2) );
+    }
+}
+impl ComplexNumber {
     pub fn conjugate ( &self ) -> Self {
         Self {
             a: self.a,
             b: self.b * -1f32
         }
-    }
-    pub fn divide ( &mut self, to_divide: ComplexNumber ) -> Option<&Self> {
-        if self.a == 0f32 && to_divide.b == 0f32 {
-            return None;
-        }
-        let a = self.a;
-        let b = self.b;
-        let c = to_divide.a;
-        let d = to_divide.b;
-    
-        self.a = ( a * c + b * d ) / ( c.powi(2) + d.powi(2) );
-        self.b = ( b * c - a * d) / ( c.powi(2) + d.powi(2) );
-
-        Some(self)
     }
     pub fn modulus ( &self ) -> f32 {
         ( self.a.powi(2) + self.b.powi(2) ).sqrt()
