@@ -19,6 +19,8 @@ fn main() {
     matrix_1 = matrix_1 * matrix_2;
     println!("{:?}", matrix_1);
 
+
+
     let mut matrix_3 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
@@ -27,4 +29,14 @@ fn main() {
 
     matrix_3.invert();
     println!("{:?}", matrix_3);
+
+
+
+    let mut matrix_4 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+
+    matrix_4.transpose();
+    println!("{:?}", matrix_4);
 }

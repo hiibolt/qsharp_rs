@@ -153,4 +153,16 @@ impl Matrix {
 
         self
     }
+    pub fn transpose ( &mut self ) -> &Self {
+        let mut ret = Matrix::from_dimensions( self.cols, self.rows );
+
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                ret.value[c][r] = self.value[r][c].clone();
+            }
+        }
+
+        *self = ret;
+        self
+    }
 }
