@@ -113,6 +113,7 @@ impl Matrix {
             vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32} ]])
     }
 
+    // Basic Functions
     pub fn new (value: Vec<Vec<ComplexNumber>>) -> Self {
         if !value.iter().all(|i| i.len() == value[0].len()) {
             panic!("Matrix is not two-dimensional! Ensure all rows are equal in length.");
@@ -185,5 +186,26 @@ impl Matrix {
     }
     pub fn unitary ( &self ) -> bool {
         (self.clone() * self.clone().adjunct().clone()) == Matrix::IDENTITY()
+    }
+
+    // Advanced Functions
+    pub fn inner_product ( &self, to_mul: Self ) -> ComplexNumber {
+        if self.cols != 1 || to_mul.cols != 1 {
+            panic!("Both matrices must have only one column!");
+        }
+
+        (self.clone().adjunct().clone() * to_mul).value[0][0].clone()
+    }
+    pub fn normalize ( &mut self ) -> &Self {
+        if self.cols != 1 {
+            todo!(); // impl according to https://mathforums.com/t/how-do-i-normalize-a-matrix.18218/
+        }
+        let norm = self.inner_product( self.clone() ).a.sqrt();
+
+        for r in 0..self.value.len() {
+            self.value[r][0] /= norm;
+        }
+
+        self
     }
 }

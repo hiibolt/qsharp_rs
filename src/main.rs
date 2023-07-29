@@ -8,6 +8,7 @@ use complex::{
 use matrix::Matrix;
 
 fn main() {
+    /* Basic Functions */
     // Matrice Multiplication
     let mut matrix_1 = Matrix::new(vec![
         vec![ ComplexNumber { a: 3f32, b: 1f32}, ComplexNumber { a: 2f32, b: 1f32}],
@@ -66,4 +67,26 @@ fn main() {
         vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
     
     println!("Is unitary: {}\n", matrix_7.unitary());
+
+
+    /* Advanced Functions */
+    // Inner Product
+    let mut matrix_8 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 4f32, b: 3f32} ]]);
+
+    let matrix_9 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
+    
+    println!("Inner product: {:?}\n", matrix_8.inner_product(matrix_9));
+
+
+    // Normalize
+    let mut matrix_10 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}],
+        vec![ ComplexNumber { a: 1f32, b: 0f32}],
+        vec![ ComplexNumber { a: 1f32, b: 0f32}]]);
+    
+    println!("Normalized: {:?}\n", matrix_10.normalize());
 }
