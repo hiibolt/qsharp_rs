@@ -2,7 +2,7 @@ use crate::complex;
 
 use complex::{
     ComplexNumber,
-    ComplexPolarNumber
+    //ComplexPolarNumber
 };
 
 use std::ops::{

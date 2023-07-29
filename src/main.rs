@@ -3,7 +3,7 @@ mod matrix;
 
 use complex::{
     ComplexNumber,
-    ComplexPolarNumber
+    //ComplexPolarNumber
 };
 use matrix::Matrix;
 
@@ -18,7 +18,7 @@ fn main() {
         vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ]]);
     
     matrix_1 = matrix_1 * matrix_2;
-    println!("{:?}", matrix_1);
+    println!("Multiplied: {:?}\n", matrix_1);
 
 
     // Matrice Inversion
@@ -26,10 +26,10 @@ fn main() {
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
 
-    println!("{:?}", matrix_3.determinant());
+    println!("Determinant: {:?}", matrix_3.determinant());
 
     matrix_3.invert();
-    println!("{:?}", matrix_3);
+    println!("Inversion: {:?}\n", matrix_3);
 
 
     // Matrice Transposition
@@ -39,13 +39,13 @@ fn main() {
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
 
     matrix_4.transpose();
-    println!("{:?}", matrix_4);
+    println!("Transposed: {:?}\n", matrix_4);
 
     // Matrice Conjugation
     let mut matrix_5 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
-        vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+        vec![ ComplexNumber { a: 0f32, b: -1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
     
     matrix_5.conjugate();
-    println!("{:?}", matrix_5);
+    println!("Conjugated: {:?}\n", matrix_5);
 }

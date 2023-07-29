@@ -149,7 +149,7 @@ impl ComplexNumber {
 
         self
     }
-    pub fn to_polar ( &self ) -> ComplexPolarNumber {
+    pub fn polar ( &self ) -> ComplexPolarNumber {
         let r = self.modulus();
         let theta = ( self.b ).atan2( self.a );
         ComplexPolarNumber {
@@ -158,7 +158,7 @@ impl ComplexNumber {
         }
     }
     pub fn arbitrary_exp ( &mut self, to_exp: ComplexNumber ) -> &Self {
-        let base_as_polar = self.to_polar();
+        let base_as_polar = self.polar();
 
         let r = base_as_polar.r;
         let theta = base_as_polar.theta;
@@ -193,18 +193,12 @@ impl std::fmt::Debug for ComplexPolarNumber {
         Ok(())
     }
 }
-impl ComplexPolarNumber {
-    pub fn to_cartesian( &self ) -> ComplexNumber {
-        let a = self.r * self.theta.cos();
-        let b = self.r * self.theta.sin();
-        ComplexNumber {
-            a,
-            b
-        }
-    }
-    pub fn mult ( &mut self, to_mult: ComplexPolarNumber ) -> &Self {
-        let mut r     = self.r * to_mult.r;
-        let mut theta = self.theta + to_mult.theta;
+impl Mul<ComplexPolarNumber> for ComplexPolarNumber {
+    type Output = Self;
+    
+    fn mul ( self, to_mul: Self ) -> Self {
+        let mut r     = self.r * to_mul.r;
+        let mut theta = self.theta + to_mul.theta;
     
         if r < 0f32 {
             r *= -1f32;
@@ -217,9 +211,19 @@ impl ComplexPolarNumber {
             theta += std::f32::consts::TAU;
         }
 
-        self.r = r;
-        self.theta = theta;
-    
-        self
+        Self {
+            r,
+            theta
+        }
+    }
+}
+impl ComplexPolarNumber {
+    pub fn cartesian( self ) -> ComplexNumber {
+        let a = self.r * self.theta.cos();
+        let b = self.r * self.theta.sin();
+        ComplexNumber {
+            a,
+            b
+        }
     }
 }
