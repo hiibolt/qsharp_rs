@@ -117,7 +117,16 @@ impl Matrice {
         let a = self.value[0][0];
         let b = self.value[0][1];
         let c = self.value[1][0];
+        let d = self.value[1][1];
 
-        (a * d) - (b * c)
+        (a.mult(d)) - (b.mult(c))
+    }
+    pub fn invert ( &mut self ) {
+        let a = self.value[0][0];
+        let b = self.value[0][1];
+        let c = self.value[1][0];
+        let d = self.value[1][1];
+        
+        self.value[]
     }
 }
