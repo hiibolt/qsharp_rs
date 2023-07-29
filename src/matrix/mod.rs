@@ -79,13 +79,15 @@ impl Matrice {
 
         for r in 0..end_result.value.len() {
             for c in 0..(end_result.value[r].len()) {
-                let row: Vec<ComplexNumber> = end_result.value[r].clone();
-                let col: Vec<ComplexNumber> = end_result
+                let row: Vec<ComplexNumber> = self.value[r].clone();
+                let col: Vec<ComplexNumber> = to_mult
                     .value
                     .clone()
                     .into_iter()
                     .map(|i| i[c].clone())
                     .collect();
+                
+                println!("{:?}, {:?}", row, col);
 
                 let dot_product: ComplexNumber = row
                     .clone()
