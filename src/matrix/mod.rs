@@ -86,8 +86,6 @@ impl Mul<Matrix> for Matrix {
                     .map(|i| i[c].clone())
                     .collect();
                 
-                println!("{:?}, {:?}", row, col);
-
                 let dot_product: ComplexNumber = row
                     .clone()
                     .into_iter()
