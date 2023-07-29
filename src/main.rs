@@ -8,6 +8,7 @@ use complex::{
 use matrix::Matrix;
 
 fn main() {
+    // Matrice Multiplication
     let mut matrix_1 = Matrix::new(vec![
         vec![ ComplexNumber { a: 3f32, b: 1f32}, ComplexNumber { a: 2f32, b: 1f32}],
         vec![ ComplexNumber { a: 4f32, b: 3f32}, ComplexNumber { a: 1f32, b: 2f32}]]);
@@ -20,7 +21,7 @@ fn main() {
     println!("{:?}", matrix_1);
 
 
-
+    // Matrice Inversion
     let mut matrix_3 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
         vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
@@ -31,7 +32,7 @@ fn main() {
     println!("{:?}", matrix_3);
 
 
-
+    // Matrice Transposition
     let mut matrix_4 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
         vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
@@ -39,4 +40,12 @@ fn main() {
 
     matrix_4.transpose();
     println!("{:?}", matrix_4);
+
+    // Matrice Conjugation
+    let mut matrix_5 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    matrix_5.conjugate();
+    println!("{:?}", matrix_5);
 }

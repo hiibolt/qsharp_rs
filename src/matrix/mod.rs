@@ -165,4 +165,12 @@ impl Matrix {
         *self = ret;
         self
     }
+    pub fn conjugate ( &mut self ) -> &Self {
+        for r in 0..self.rows {
+            for c in 0..self.cols {
+                self.value[r][c].conjugate();
+            }
+        }
+        self
+    }
 }

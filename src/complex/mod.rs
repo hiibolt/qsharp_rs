@@ -19,7 +19,7 @@ impl std::fmt::Debug for ComplexNumber {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
         let operator: &str = if self.b.signum() == 1.0 { "+" } else { "-" };
 
-        write!(f, "({} {} {}i)", self.a, operator, self.b.abs());
+        write!(f, "({} {} {}i)", self.a, operator, self.b.abs())?;
         Ok(())
     }
 }
@@ -136,11 +136,9 @@ impl DivAssign<ComplexNumber> for ComplexNumber {
     }
 }
 impl ComplexNumber {
-    pub fn conjugate ( &self ) -> Self {
-        Self {
-            a: self.a,
-            b: self.b * -1f32
-        }
+    pub fn conjugate ( &mut self ) -> &Self {
+        self.b *= -1f32;
+        self
     }
     pub fn modulus ( &self ) -> f32 {
         ( self.a.powi(2) + self.b.powi(2) ).sqrt()
