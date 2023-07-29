@@ -5,13 +5,18 @@ use complex::{
     ComplexPolarNumber
 };
 
+use std::ops::{
+    Add,
+    Mul
+};
+
 #[derive(Clone)]
-pub struct Matrice {
+pub struct Matrix {
     value: Vec<Vec<ComplexNumber>>,
     rows: usize,
     cols: usize
 }
-impl std::fmt::Debug for Matrice {
+impl std::fmt::Debug for Matrix {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
         write!(f, "Complex Matrix: {}x{}\n", self.rows, self.cols )?;
         let mut row_divider: String = String::new();
@@ -28,59 +33,53 @@ impl std::fmt::Debug for Matrice {
         Ok(())
     }
 }
-impl Matrice {
-    pub fn new (value: Vec<Vec<ComplexNumber>>) -> Self {
-        if !value.iter().all(|i| i.len() == value[0].len()) {
-            panic!("Matrix is not two-dimensional! Ensure all rows are equal in length.");
-        }
-        let rows = value.len();
-        let cols = value[0].len();
-        Self {
-            value,
-            rows,
-            cols
-        }
-    }
-    pub fn from_dimensions ( rows: usize, cols: usize ) -> Self {
-        let row: Vec<ComplexNumber> = vec![ComplexNumber { a: 0f32, b: 0f32 }; cols];
-        let mut ret: Vec<Vec<ComplexNumber>> = Vec::new();
-        for _ in 0..rows {
-            ret.push( row.clone() );
-        }
-        Matrice::new(ret)
-    }
-    pub fn add ( &mut self, to_add: Matrice ) -> &Self {
+impl Add for Matrix {
+    type Output = Self;
+
+    fn add ( self, to_add: Self ) -> Self {
         if self.rows != to_add.rows || self.cols != to_add.cols {
             panic!("Matrix size {}x{} doesn't match the base size {}x{}", to_add.rows, to_add.cols, self.rows, self.cols);
         }
-        for row in 0..self.value.len() {
-            for col in 0..self.value[row].len() {
-                self.value[row][col] += to_add.value[row][col].clone();
+
+        let mut ret = self.clone();
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] += to_add.value[row][col].clone();
             }
         }
 
-        self
+        ret
     }
-    pub fn scalar_mult ( &mut self, to_mult: f32 ) -> &Self {
-        for row in 0..self.value.len() {
-            for col in 0..self.value[row].len() {
-                self.value[row][col] *= to_mult;
+}
+impl Mul<f32> for Matrix {
+    type Output = Self;
+
+    fn mul ( self, to_mul: f32 ) -> Self {
+        let mut ret = self.clone();
+
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] *= to_mul;
             }
         }
 
-        self
+        ret
     }
-    pub fn matrix_mult ( self, to_mult: Matrice ) -> Self {
-        if self.cols != to_mult.rows {
+}
+impl Mul<Matrix> for Matrix {
+    type Output = Self;
+
+    fn mul ( self, to_mul: Self ) -> Self {
+        if self.cols != to_mul.rows {
             panic!("Number of columns in the base matrix must match the number of columns in the second row!");
         }
 
-        let mut end_result = Matrice::from_dimensions( self.rows, to_mult.cols );
+        let mut end_result = Matrix::from_dimensions( self.rows, to_mul.cols );
 
         for r in 0..end_result.value.len() {
             for c in 0..(end_result.value[r].len()) {
                 let row: Vec<ComplexNumber> = self.value[r].clone();
-                let col: Vec<ComplexNumber> = to_mult
+                let col: Vec<ComplexNumber> = to_mul
                     .value
                     .clone()
                     .into_iter()
@@ -107,6 +106,28 @@ impl Matrice {
         }
 
         end_result
+    }
+}
+impl Matrix {
+    pub fn new (value: Vec<Vec<ComplexNumber>>) -> Self {
+        if !value.iter().all(|i| i.len() == value[0].len()) {
+            panic!("Matrix is not two-dimensional! Ensure all rows are equal in length.");
+        }
+        let rows = value.len();
+        let cols = value[0].len();
+        Self {
+            value,
+            rows,
+            cols
+        }
+    }
+    pub fn from_dimensions ( rows: usize, cols: usize ) -> Self {
+        let row: Vec<ComplexNumber> = vec![ComplexNumber { a: 0f32, b: 0f32 }; cols];
+        let mut ret: Vec<Vec<ComplexNumber>> = Vec::new();
+        for _ in 0..rows {
+            ret.push( row.clone() );
+        }
+        Matrix::new(ret)
     }
     pub fn determinant ( &self ) -> ComplexNumber {
         if self.cols != 2 || self.rows != 2 {
