@@ -196,6 +196,13 @@ impl Matrix {
 
         (self.clone().adjunct().clone() * to_mul).value[0][0].clone()
     }
+    pub fn outer_product ( &self, to_mul: Self ) -> Self {
+        if self.cols != 1 || to_mul.cols != 1 {
+            panic!("Both matrices must have only one column!");
+        }
+
+        (self.clone() * to_mul.clone().adjunct().clone())
+    }
     pub fn normalize ( &mut self ) -> &Self {
         if self.cols != 1 {
             todo!(); // impl according to https://mathforums.com/t/how-do-i-normalize-a-matrix.18218/

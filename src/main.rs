@@ -82,11 +82,24 @@ fn main() {
     println!("Inner product: {:?}\n", matrix_8.inner_product(matrix_9));
 
 
-    // Normalize
+    // Normalize Matrix
     let mut matrix_10 = Matrix::new(vec![
         vec![ ComplexNumber { a: 1f32, b: 0f32}],
         vec![ ComplexNumber { a: 1f32, b: 0f32}],
         vec![ ComplexNumber { a: 1f32, b: 0f32}]]);
     
     println!("Normalized: {:?}\n", matrix_10.normalize());
+
+    
+    // Outer Product
+    let mut matrix_11 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 4f32, b: 3f32} ]]);
+
+    let matrix_12 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
+    
+    println!("Outer product: {:?}\n", matrix_11.outer_product(matrix_12));
 }
