@@ -92,7 +92,7 @@ fn main() {
 
     
     // Outer Product
-    let mut matrix_11 = Matrix::new(vec![
+    let matrix_11 = Matrix::new(vec![
         vec![ ComplexNumber { a: 3f32, b: 1f32} ],
         vec![ ComplexNumber { a: 4f32, b: 3f32} ]]);
 
@@ -102,4 +102,18 @@ fn main() {
         vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
     
     println!("Outer product: {:?}\n", matrix_11.outer_product(&matrix_12));
+
+
+
+    /* Further Advanced Functions */
+    // Tensor Product
+    let matrix_13 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32}, ComplexNumber { a: 2f32, b: 1f32}],
+        vec![ ComplexNumber { a: 4f32, b: 3f32}, ComplexNumber { a: 1f32, b: 2f32}]]);
+
+    let matrix_14 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ]]);
+    
+    println!("Tensor Product: {:?}\n", matrix_13.tensor_product(&matrix_14));
 }

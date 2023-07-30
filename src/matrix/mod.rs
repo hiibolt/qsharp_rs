@@ -215,4 +215,21 @@ impl Matrix {
 
         self
     }
+
+    // Further Advanced Functions
+    pub fn tensor_product ( &self, to_mul: &Self ) -> Self {
+        let mut ret = Matrix::from_dimensions( self.rows * to_mul.rows, self.cols * to_mul.cols );
+
+        for r in 0..self.value.len() {
+            for c in 0..self.value[r].len() {
+                for r_n in 0..to_mul.value.len() {
+                    for c_n in 0..to_mul.value[r_n].len() {
+                        ret.value[r * to_mul.value.len() + r_n][c * to_mul.value[c].len() + c_n] = self.value[r][c].clone() * to_mul.value[r_n][c_n].clone();
+                    }
+                }
+            }
+        }
+
+        ret
+    }
 }
