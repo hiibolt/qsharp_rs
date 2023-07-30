@@ -189,14 +189,14 @@ impl Matrix {
     }
 
     // Advanced Functions
-    pub fn inner_product ( &self, to_mul: Self ) -> ComplexNumber {
+    pub fn inner_product ( &self, to_mul: &Self ) -> ComplexNumber {
         if self.cols != 1 || to_mul.cols != 1 {
             panic!("Both matrices must have only one column!");
         }
 
-        (self.clone().adjunct().clone() * to_mul).value[0][0].clone()
+        (self.clone().adjunct().clone() * to_mul.clone()).value[0][0].clone()
     }
-    pub fn outer_product ( &self, to_mul: Self ) -> Self {
+    pub fn outer_product ( &self, to_mul: &Self ) -> Self {
         if self.cols != 1 || to_mul.cols != 1 {
             panic!("Both matrices must have only one column!");
         }
@@ -207,7 +207,7 @@ impl Matrix {
         if self.cols != 1 {
             todo!(); // impl according to https://mathforums.com/t/how-do-i-normalize-a-matrix.18218/
         }
-        let norm = self.inner_product( self.clone() ).a.sqrt();
+        let norm = self.inner_product( &self ).a.sqrt();
 
         for r in 0..self.value.len() {
             self.value[r][0] /= norm;

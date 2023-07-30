@@ -79,7 +79,7 @@ fn main() {
         vec![ ComplexNumber { a: 8f32, b: 4f32} ],
         vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
     
-    println!("Inner product: {:?}\n", matrix_8.inner_product(matrix_9));
+    println!("Inner product: {:?}\n", matrix_8.inner_product(&matrix_9));
 
 
     // Normalize Matrix
@@ -101,5 +101,5 @@ fn main() {
         vec![ ComplexNumber { a: 8f32, b: 4f32} ],
         vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
     
-    println!("Outer product: {:?}\n", matrix_11.outer_product(matrix_12));
+    println!("Outer product: {:?}\n", matrix_11.outer_product(&matrix_12));
 }
