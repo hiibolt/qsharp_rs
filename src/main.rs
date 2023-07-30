@@ -127,5 +127,15 @@ fn main() {
         vec![ ComplexNumber { a: 1f32, b: 0f32} ],
         vec![ ComplexNumber { a: 0f32, b: 0f32} ]]);
     
-    println!("Eigenvalue: {:?}\n", matrix_14.eigenvalue_from_eigenvector(&eigenvector_1));
+    println!("Eigenvalue: {:?}\n", matrix_14.eigenvalue_from_eigenvector( &eigenvector_1));
+
+
+    // Procuring an eigenvector from a base vector and an eigenvalue
+    let matrix_15 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 86f32}, ComplexNumber { a: 0f32, b: 28f32}],
+        vec![ ComplexNumber { a: 12f32, b: 23f32}, ComplexNumber { a: 1f32, b: 23f32}]]);
+
+    let eigenvalue_1 = ComplexNumber { a: 1f32, b: 18f32};
+    
+    println!("Eigenvalue: {:?}\n", matrix_15.eigenvector_from_eigenvalue( eigenvalue_1 ));
 }

@@ -250,4 +250,39 @@ impl Matrix {
         }
         ret
     }
+    pub fn eigenvector_from_eigenvalue ( &self, eigenvalue: ComplexNumber ) -> Self {
+        let mut ret = Matrix::from_dimensions( 2, 1 );
+
+        let a = self.value[0][0].clone();
+        let b = self.value[0][1].clone();
+        let c = self.value[1][0].clone();
+        let d = self.value[1][1].clone();
+
+        // The many, many edge cases
+        if c == (ComplexNumber { a: 0f32, b: 0f32 }) {
+            if a - eigenvalue.clone() != (ComplexNumber { a: 0f32, b: 0f32 }) {
+                ret.value[0][0] = ComplexNumber { a: 0f32, b: 0f32 };
+                ret.value[1][0] = ComplexNumber { a: 1f32, b: 0f32 };
+
+                return ret;
+            } else {
+                if c == (ComplexNumber { a: 0f32, b: 0f32 }) {
+                    ret.value[0][0] = ComplexNumber { a: 1f32, b: 0f32 };
+                    ret.value[1][0] = ComplexNumber { a: 0f32, b: 0f32 };
+
+                    return ret;
+                } else {
+                    ret.value[0][0] = (d - eigenvalue) / (c * -1f32 );
+                    ret.value[1][0] = ComplexNumber { a: 1f32, b: 0f32 };
+
+                    return ret;
+                }
+            }
+        }
+
+        ret.value[0][0] = ComplexNumber { a: 1f32, b: 0f32 };
+        ret.value[1][0] = (eigenvalue - a) / b;
+
+        ret
+    }
 }
