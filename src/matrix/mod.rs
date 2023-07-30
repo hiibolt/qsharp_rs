@@ -201,7 +201,7 @@ impl Matrix {
             panic!("Both matrices must have only one column!");
         }
 
-        (self.clone() * to_mul.clone().adjunct().clone())
+        self.clone() * to_mul.clone().adjunct().clone()
     }
     pub fn normalize ( &mut self ) -> &Self {
         if self.cols != 1 {
@@ -230,6 +230,24 @@ impl Matrix {
             }
         }
 
+        ret
+    }
+    pub fn eigenvalue_from_eigenvector ( &self, eigenvector: &Self ) -> Option<ComplexNumber> {
+        if self.rows != self.cols || self.cols != eigenvector.rows {
+            panic!("Arguments must be of size n x n and n x 1!");
+        }
+        let result = self.clone() * eigenvector.clone();
+
+        let mut ret: Option<ComplexNumber> = None;
+        for r in 0..eigenvector.value.len() {
+            if eigenvector.value[r][0] != (ComplexNumber { a: 0f32, b: 0f32 }) {
+                let eigenvalue = result.value[0][0].clone() / eigenvector.value[0][0].clone();
+                match ret {
+                    Some(_) => return None,
+                    None => ret = Some(eigenvalue)
+                }
+            }
+        }
         ret
     }
 }

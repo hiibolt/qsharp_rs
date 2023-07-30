@@ -116,4 +116,16 @@ fn main() {
         vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ]]);
     
     println!("Tensor Product: {:?}\n", matrix_13.tensor_product(&matrix_14));
+
+
+    // Procuring an eigenvalue from a base vector and an eigenvector
+    let matrix_14 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32}],
+        vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32}]]);
+
+    let eigenvector_1 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 0f32} ]]);
+    
+    println!("Eigenvalue: {:?}\n", matrix_14.eigenvalue_from_eigenvector(&eigenvector_1));
 }
