@@ -7,7 +7,16 @@ use complex::{
 
 use std::ops::{
     Add,
-    Mul
+    Sub,
+    Mul,
+    Div,
+
+    AddAssign,
+    SubAssign,
+    MulAssign,
+    DivAssign,
+
+    Index
 };
 
 #[derive(Clone, PartialEq)]
@@ -33,7 +42,22 @@ impl std::fmt::Debug for Matrix {
         Ok(())
     }
 }
-impl Add for Matrix {
+impl Add<ComplexNumber> for Matrix {
+    type Output = Self;
+
+    fn add ( self, to_add: ComplexNumber ) -> Self {
+        let mut ret = self.clone();
+
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] += to_add.clone();
+            }
+        }
+
+        ret
+    }
+}
+impl Add<Matrix> for Matrix {
     type Output = Self;
 
     fn add ( self, to_add: Self ) -> Self {
@@ -51,15 +75,92 @@ impl Add for Matrix {
         ret
     }
 }
-impl Mul<f32> for Matrix {
+impl AddAssign<ComplexNumber> for Matrix {
+    fn add_assign ( &mut self, to_add: ComplexNumber ) {
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] += to_add.clone();
+            }
+        }
+    }
+}
+impl AddAssign<Matrix> for Matrix {
+    fn add_assign ( &mut self, to_add: Self ) {
+        if self.rows != to_add.rows || self.cols != to_add.cols {
+            panic!("Matrix size {}x{} doesn't match the base size {}x{}", to_add.rows, to_add.cols, self.rows, self.cols);
+        }
+
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] += to_add.value[row][col].clone();
+            }
+        }
+    }
+}
+impl Sub<ComplexNumber> for Matrix {
     type Output = Self;
 
-    fn mul ( self, to_mul: f32 ) -> Self {
+    fn sub ( self, to_add: ComplexNumber ) -> Self {
         let mut ret = self.clone();
 
         for row in 0..ret.value.len() {
             for col in 0..ret.value[row].len() {
-                ret.value[row][col] *= to_mul;
+                ret.value[row][col] -= to_add.clone();
+            }
+        }
+
+        ret
+    }
+}
+impl Sub<Matrix> for Matrix {
+    type Output = Self;
+
+    fn sub ( self, to_add: Self ) -> Self {
+        if self.rows != to_add.rows || self.cols != to_add.cols {
+            panic!("Matrix size {}x{} doesn't match the base size {}x{}", to_add.rows, to_add.cols, self.rows, self.cols);
+        }
+
+        let mut ret = self.clone();
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] -= to_add.value[row][col].clone();
+            }
+        }
+
+        ret
+    }
+}
+impl SubAssign<ComplexNumber> for Matrix {
+    fn sub_assign ( &mut self, to_add: ComplexNumber ) {
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] -= to_add.clone();
+            }
+        }
+    }
+}
+impl SubAssign<Matrix> for Matrix {
+    fn sub_assign ( &mut self, to_add: Self ) {
+        if self.rows != to_add.rows || self.cols != to_add.cols {
+            panic!("Matrix size {}x{} doesn't match the base size {}x{}", to_add.rows, to_add.cols, self.rows, self.cols);
+        }
+
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] -= to_add.value[row][col].clone();
+            }
+        }
+    }
+}
+impl Mul<ComplexNumber> for Matrix {
+    type Output = Self;
+
+    fn mul ( self, to_mul: ComplexNumber ) -> Self {
+        let mut ret = self.clone();
+
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] *= to_mul.clone();
             }
         }
 
@@ -106,7 +207,87 @@ impl Mul<Matrix> for Matrix {
         end_result
     }
 }
+impl MulAssign<ComplexNumber> for Matrix {
+    fn mul_assign ( &mut self, to_mul: ComplexNumber ) {
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] *= to_mul.clone();
+            }
+        }
+    }
+}
+impl MulAssign<Matrix> for Matrix {
+    fn mul_assign ( &mut self, to_mul: Self ) {
+        if self.cols != to_mul.rows {
+            panic!("Number of columns in the base matrix must match the number of columns in the second row!");
+        }
+
+        let mut end_result = Matrix::from_dimensions( self.rows, to_mul.cols );
+
+        for r in 0..end_result.value.len() {
+            for c in 0..(end_result.value[r].len()) {
+                let row: Vec<ComplexNumber> = self.value[r].clone();
+                let col: Vec<ComplexNumber> = to_mul
+                    .value
+                    .clone()
+                    .into_iter()
+                    .map(|i| i[c].clone())
+                    .collect();
+                
+                let dot_product: ComplexNumber = row
+                    .clone()
+                    .into_iter()
+                    .enumerate()
+                    .map(|(ind, i)| { // Multiply each row by element of equivalent index in each intersecting column
+                        i.clone() * col[ind].clone()
+                    })
+                    .reduce(|total: ComplexNumber, i: ComplexNumber| { // Add each element of the now row to create the final dot product
+                        total + i
+                    })
+                    .expect("Should never happen given the matrices make it past first check")
+                    .clone();
+
+                end_result.value[r][c] = dot_product;
+            }
+        }
+
+        *self = end_result;
+    }
+}
+impl Div<ComplexNumber> for Matrix {
+    type Output = Self;
+
+    fn div ( self, to_mul: ComplexNumber ) -> Self {
+        let mut ret = self.clone();
+
+        for row in 0..ret.value.len() {
+            for col in 0..ret.value[row].len() {
+                ret.value[row][col] /= to_mul.clone();
+            }
+        }
+
+        ret
+    }
+}
+impl DivAssign<ComplexNumber> for Matrix {
+    fn div_assign ( &mut self, to_mul: ComplexNumber ) {
+        for row in 0..self.value.len() {
+            for col in 0..self.value[row].len() {
+                self.value[row][col] /= to_mul.clone();
+            }
+        }
+    }
+}
+impl Index<usize> for Matrix {
+    type Output = Vec<ComplexNumber>;
+
+    fn index ( &self, index: usize ) -> &Self::Output {
+        &(self.value[index])
+    }
+}
+
 impl Matrix {
+    #[allow(non_snake_case)]
     pub fn IDENTITY () -> Self {
         Matrix::new(vec![
             vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32} ],
@@ -286,3 +467,146 @@ impl Matrix {
         ret
     }
 }
+
+/*
+mod complex;
+mod matrix;
+
+use complex::{
+    ComplexNumber,
+    //ComplexPolarNumber
+};
+use matrix::Matrix;
+
+fn main() {
+    /* Basic Functions */
+    // Matrice Multiplication
+    let mut matrix_1 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32}, ComplexNumber { a: 2f32, b: 1f32}],
+        vec![ ComplexNumber { a: 4f32, b: 3f32}, ComplexNumber { a: 1f32, b: 2f32}]]);
+
+    let matrix_2 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ]]);
+    
+    matrix_1 = matrix_1 * matrix_2;
+    println!("Multiplied: {:?}\n", matrix_1);
+
+
+    // Matrice Inversion
+    let mut matrix_3 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+
+    println!("Determinant: {:?}", matrix_3.determinant());
+
+    matrix_3.invert();
+    println!("Inversion: {:?}\n", matrix_3);
+
+
+    // Matrice Transposition
+    let mut matrix_4 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+
+    matrix_4.transpose();
+    println!("Transposed: {:?}\n", matrix_4);
+
+
+    // Matrice Conjugation
+    let mut matrix_5 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: -1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    matrix_5.conjugate();
+    println!("Conjugated: {:?}\n", matrix_5);
+
+
+    // Matrice Adjunction
+    let mut matrix_6 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 1f32}, ComplexNumber { a: 0f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 0f32, b: -1f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    matrix_6.adjunct();
+    println!("Adjuncted: {:?}\n", matrix_6);
+
+
+    // Unitary Verification
+    let mut matrix_7 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32} ]]);
+    
+    println!("Is unitary: {}\n", matrix_7.unitary());
+
+
+    /* Advanced Functions */
+    // Inner Product
+    let mut matrix_8 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 4f32, b: 3f32} ]]);
+
+    let matrix_9 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
+    
+    println!("Inner product: {:?}\n", matrix_8.inner_product(&matrix_9));
+
+
+    // Normalize Matrix
+    let mut matrix_10 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}],
+        vec![ ComplexNumber { a: 1f32, b: 0f32}],
+        vec![ ComplexNumber { a: 1f32, b: 0f32}]]);
+    
+    println!("Normalized: {:?}\n", matrix_10.normalize());
+
+    
+    // Outer Product
+    let matrix_11 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 4f32, b: 3f32} ]]);
+
+    let matrix_12 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32} ]]);
+    
+    println!("Outer product: {:?}\n", matrix_11.outer_product(&matrix_12));
+
+
+
+    /* Further Advanced Functions */
+    // Tensor Product
+    let matrix_13 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 3f32, b: 1f32}, ComplexNumber { a: 2f32, b: 1f32}],
+        vec![ ComplexNumber { a: 4f32, b: 3f32}, ComplexNumber { a: 1f32, b: 2f32}]]);
+
+    let matrix_14 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ],
+        vec![ ComplexNumber { a: 8f32, b: 4f32}, ComplexNumber { a: 2f32, b: 1f32} ]]);
+    
+    println!("Tensor Product: {:?}\n", matrix_13.tensor_product(&matrix_14));
+
+
+    // Procuring an eigenvalue from a base vector and an eigenvector
+    let matrix_14 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32}, ComplexNumber { a: 0f32, b: 0f32}],
+        vec![ ComplexNumber { a: 0f32, b: 0f32}, ComplexNumber { a: 1f32, b: 0f32}]]);
+
+    let eigenvector_1 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 0f32} ],
+        vec![ ComplexNumber { a: 0f32, b: 0f32} ]]);
+    
+    println!("Eigenvalue: {:?}\n", matrix_14.eigenvalue_from_eigenvector( &eigenvector_1));
+
+
+    // Procuring an eigenvector from a base vector and an eigenvalue
+    let matrix_15 = Matrix::new(vec![
+        vec![ ComplexNumber { a: 1f32, b: 86f32}, ComplexNumber { a: 0f32, b: 28f32}],
+        vec![ ComplexNumber { a: 12f32, b: 23f32}, ComplexNumber { a: 1f32, b: 23f32}]]);
+
+    let eigenvalue_1 = ComplexNumber { a: 1f32, b: 18f32};
+    
+    println!("Eigenvalue: {:?}\n", matrix_15.eigenvector_from_eigenvalue( eigenvalue_1 ));
+}*/
