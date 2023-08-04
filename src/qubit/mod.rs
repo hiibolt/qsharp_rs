@@ -35,6 +35,18 @@ impl Qubit {
                 vec![ONE_OVER_SQRT_2],
                 vec![ONE_OVER_SQRT_2]
             ])),
+            "NEG" => Qubit::new(Matrix::new(vec![
+                vec![ONE_OVER_SQRT_2],
+                vec![NEG_ONE_OVER_SQRT_2]
+            ])),
+            "I" => Qubit::new(Matrix::new(vec![
+                vec![ONE_OVER_SQRT_2],
+                vec![I_OVER_SQRT_2]
+            ])),
+            "NEG_I" => Qubit::new(Matrix::new(vec![
+                vec![ONE_OVER_SQRT_2],
+                vec![NEG_I_OVER_SQRT_2]
+            ])),
             _ => panic!("Not a valid or recognized ket state!")
         }
     }
