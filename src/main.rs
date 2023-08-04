@@ -7,7 +7,7 @@ use crate::matrix::*;
 use crate::complex::*;
 
 fn main() {
-    let mut q = Qubit::ket("ZERO");
+    let mut q = Qubit::ket("NEG_I");
 
     println!("{:?}", q);
 }

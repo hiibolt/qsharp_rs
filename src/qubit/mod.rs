@@ -16,7 +16,13 @@ pub struct Qubit {
 }
 impl std::fmt::Debug for Qubit {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
-        write!(f, "Machine Dump:\n|0> {:?}\n|1> {:?}\n", self.state[0][0], self.state[1][0] )?;
+        let alpha_combined = self.state[0][0].a.clone().powi(2) + self.state[0][0].b.clone().powi(2);
+        let beta_combined = self.state[1][0].a.clone().powi(2) + self.state[1][0].b.clone().powi(2);
+
+        let alpha_bar = String::from("#".repeat(((alpha_combined * 20.).floor() as usize))) + &"_".repeat((20. - (alpha_combined * 20.).floor()) as usize);
+        let beta_bar = String::from("#".repeat(((beta_combined * 20.).floor() as usize))) + &"_".repeat((20. - (beta_combined * 20.).floor()) as usize);
+        
+        write!(f, "Machine Dump:\n|0> {:?} {}\n|1> {:?} {}\n", self.state[0][0], alpha_bar, self.state[1][0], beta_bar )?;
         Ok(())
     }
 }
