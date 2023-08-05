@@ -32,6 +32,7 @@ impl std::fmt::Debug for Qubit {
 impl Qubit {
     pub fn ket ( id: &str ) -> Self {
         return match id {
+            /**
             "ZERO" => Qubit::new(Matrix::new(vec![
                 vec![ComplexNumber { a: 1f32, b: 0f32 }],
                 vec![ComplexNumber { a: 0f32, b: 0f32 }]
@@ -55,16 +56,17 @@ impl Qubit {
             "NEG_I" => Qubit::new(Matrix::new(vec![
                 vec![ONE_OVER_SQRT_2],
                 vec![NEG_I_OVER_SQRT_2]
-            ])),
+            ])),**/
             _ => panic!("Not a valid or recognized ket state!")
         }
     }
 
-    pub fn new ( input_state: Matrix ) -> Self {
-        let mut state = input_state.clone();
-        state.normalize();
+    pub fn new () -> Self {
         Self {
-            state
+            state: Matrix::new(vec![
+                vec![ComplexNumber { a: 1f32, b: 0f32 }],
+                vec![ComplexNumber { a: 0f32, b: 0f32 }]
+            ])
         }
     }
 }
