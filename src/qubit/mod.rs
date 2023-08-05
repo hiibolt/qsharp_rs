@@ -22,8 +22,14 @@ impl std::fmt::Debug for Qubit {
         let alpha_bar = String::from("#".repeat(((alpha_combined * 20.).floor() as usize))) + &"_".repeat((20. - (alpha_combined * 20.).floor()) as usize);
         let beta_bar = String::from("#".repeat(((beta_combined * 20.).floor() as usize))) + &"_".repeat((20. - (beta_combined * 20.).floor()) as usize);
 
-        let alpha_phase = (self.state[0][0].a.clone()).atan2(self.state[0][0].b.clone()) / std::f32::consts::PI * 180.;
-        let beta_phase = (self.state[1][0].a.clone()).atan2(self.state[1][0].b.clone()) / std::f32::consts::PI * 180.;
+        let alpha_phase = self.state[0][0]
+            .clone().polar()
+            .theta
+            .to_degrees();
+        let beta_phase = self.state[1][0]
+            .clone().polar()
+            .theta
+            .to_degrees();
         
         write!(f, "Machine Dump:\n|0> {:?} | {} | {}°\n|1> {:?} | {} | {}°\n", self.state[0][0], alpha_bar, alpha_phase, self.state[1][0], beta_bar, beta_phase )?;
         Ok(())

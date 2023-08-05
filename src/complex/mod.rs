@@ -183,8 +183,8 @@ impl ComplexNumber {
 
 #[derive(Clone)]
 pub struct ComplexPolarNumber {
-    r: f32,
-    theta: f32
+    pub r: f32,
+    pub theta: f32
 }
 impl std::fmt::Debug for ComplexPolarNumber {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
