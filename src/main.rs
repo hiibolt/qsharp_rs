@@ -4,14 +4,12 @@ mod complex;
 mod system;
 
 use crate::qubit::*;
-use crate::matrix::*;
-use crate::complex::*;
 use crate::system::*;
 
 fn main() {
     let mut system = System::new();
 
-    let mut q = system.allocate();
+    let q = system.allocate();
     q.measure();
 
     // X Gate

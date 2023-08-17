@@ -24,31 +24,42 @@ impl std::fmt::Debug for Qubit {
 impl Qubit {
     pub fn ket ( id: &str ) -> Self {
         return match id {
-            /**
-            "ZERO" => Qubit::new(Matrix::new(vec![
-                vec![ComplexNumber { a: 1f32, b: 0f32 }],
-                vec![ComplexNumber { a: 0f32, b: 0f32 }]
-            ])),
-            "ONE" => Qubit::new(Matrix::new(vec![
-                vec![ComplexNumber { a: 0f32, b: 0f32 }],
-                vec![ComplexNumber { a: 1f32, b: 0f32 }]
-            ])),
-            "PLUS" => Qubit::new(Matrix::new(vec![
-                vec![ONE_OVER_SQRT_2],
-                vec![ONE_OVER_SQRT_2]
-            ])),
-            "NEG" => Qubit::new(Matrix::new(vec![
-                vec![ONE_OVER_SQRT_2],
-                vec![NEG_ONE_OVER_SQRT_2]
-            ])),
-            "I" => Qubit::new(Matrix::new(vec![
-                vec![ONE_OVER_SQRT_2],
-                vec![I_OVER_SQRT_2]
-            ])),
-            "NEG_I" => Qubit::new(Matrix::new(vec![
-                vec![ONE_OVER_SQRT_2],
-                vec![NEG_I_OVER_SQRT_2]
-            ])),**/
+            "ZERO" => Self{
+                state: Matrix::new(vec![
+                    vec![ComplexNumber { a: 1f32, b: 0f32 }],
+                    vec![ComplexNumber { a: 0f32, b: 0f32 }]
+                ])
+            },
+            "ONE" => Self{
+                state: Matrix::new(vec![
+                    vec![ComplexNumber { a: 0f32, b: 0f32 }],
+                    vec![ComplexNumber { a: 1f32, b: 0f32 }]
+                ])
+            },
+            "PLUS" => Self{
+                state: Matrix::new(vec![
+                    vec![ONE_OVER_SQRT_2],
+                    vec![ONE_OVER_SQRT_2]
+                ])
+            },
+            "NEG" => Self{
+                state: Matrix::new(vec![
+                    vec![ONE_OVER_SQRT_2],
+                    vec![NEG_ONE_OVER_SQRT_2]
+                ])
+            },
+            "I" => Self{
+                state: Matrix::new(vec![
+                    vec![ONE_OVER_SQRT_2],
+                    vec![I_OVER_SQRT_2]
+                ])
+            },
+            "NEG_I" => Self{
+                state: Matrix::new(vec![
+                    vec![ONE_OVER_SQRT_2],
+                    vec![NEG_I_OVER_SQRT_2]
+                ])
+            },
             _ => panic!("Not a valid or recognized ket state!")
         }
     }
@@ -69,7 +80,7 @@ impl Qubit {
             .theta
             .to_degrees();
         
-        println!("Chance of being measured as on: {}%", (self.state[1][0].clone() * self.state[1][0].clone()).a * 100f32);
+        println!("Chance of being measured as on: {}%", (self.state[1][0].clone() * self.state[1][0].clone()).modulus()  * 100f32);
         println!("|0> {:?} | {} | {}°\n|1> {:?} | {} | {}°\n", self.state[0][0], alpha_bar, alpha_phase, self.state[1][0], beta_bar, beta_phase );
     }
     pub fn new () -> Self {
@@ -108,7 +119,7 @@ impl Qubit {
     pub fn Z ( &mut self ) -> &Self {
         self.state = Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: -1f32 }],
+            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: -1f32, b: 0f32 }],
         ]) * self.state.clone();
         self
     }

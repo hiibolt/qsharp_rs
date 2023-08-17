@@ -25,4 +25,8 @@ impl System {
         self.state.push(Qubit::new());
         self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
     }
+    pub fn allocate_ket ( &mut self, id: &str ) -> &mut Qubit {
+        self.state.push(Qubit::ket(id));
+        self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
+    }
 }
