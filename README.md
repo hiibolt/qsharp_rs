@@ -24,6 +24,9 @@ This allows you to represent entire gates as a series of Dirac notations without
 Basic example of how the X (inversion) gate can be represented solely with Dirac notation:
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/ec63af1a-8ed4-40b5-8f53-fba47c5edb7c)
 
+This allows fast computation without ever using matrices, which can be seen here flipping |0> to |1> in Dirac notation:
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/9498038e-d15a-418b-a36b-3d329af5f0f8)
+
 
 ## Ranting
 - statements by the deranged:
