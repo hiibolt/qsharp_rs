@@ -1,4 +1,4 @@
-![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/8822fd01-7ead-447e-a464-89937046a9bd)# Rust Implementations of the Q# documentation
+# Rust Implementations of the Q# documentation
 
 Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy, and packaged by Nix.
 
@@ -16,8 +16,8 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 Basic Key:
 
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/99a6ca77-5579-4c18-96ea-bd22c8f8d12a)
-- You can imagine <x|y> as the inner product of |x> and |y> because they're notationally connected _internally_ (inside?) via the connector.
-  - *Likewise, you can imagine |x> <y| as the outer product because of |x> and |y> because, well, they're not connected internally or pointing to eachother, so they're _outside_ the norm.*
+- You can imagine <x|y> as the inner product of |x> and |y> because they're notationally connected _internally_ via the connector.
+- Likewise, you can imagine |x> <y| as the outer product because of |x> and |y> because, well, they're not connected internally or pointing to eachother, so they're _outside_ the norm.
 ## Ranting
 - statements by the deranged:
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/b311f772-5f07-41e9-ba34-8e7d2053c680)
