@@ -12,6 +12,8 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 
 [The Hitchhiker’s Guide to the Quantum Computing and Q# Blog](https://learn.microsoft.com/en-us/archive/blogs/uk_faculty_connection/the-hitchhikers-guide-to-the-quantum-computing-and-q-blog)
 
+[Fantastic Simulator - JS](https://algassert.com/quirk)
+
 ## Bra-Ket notation
 ### Basics:
 
