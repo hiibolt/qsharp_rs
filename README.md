@@ -22,7 +22,8 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 This allows you to represent entire gates as a series of Dirac notations without ever technically re-entering matrix territory. 
 
 Basic example of how the X (inversion) gate can be represented solely with Dirac notation:
-![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/6e63cef5-0a98-4dfd-a277-c767eab48fe8)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/ec63af1a-8ed4-40b5-8f53-fba47c5edb7c)
+
 
 ## Ranting
 - statements by the deranged:
