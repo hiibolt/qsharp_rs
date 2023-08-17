@@ -14,6 +14,7 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 
 ## Bra-Ket notation
 Basic Key:
+
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/99a6ca77-5579-4c18-96ea-bd22c8f8d12a)
 - You can imagine <x|y> as the inner product of |x> and |y> because they're notationally connected _internally_ (inside?) via the connector.
   - *Likewise, you can imagine |x> <y| as the outer product because of |x> and |y> because, well, they're not connected internally or pointing to eachother, so they're _outside_ the norm.*
