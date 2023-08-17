@@ -75,4 +75,15 @@ impl Qubit {
             ])
         }
     }
+
+
+    /* Gate Operations */
+    #[allow(non_snake_case)]
+    pub fn X ( &mut self ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
+            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+        ]) * self.state.clone();
+        self
+    }
 }

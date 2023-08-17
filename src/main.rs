@@ -10,4 +10,8 @@ fn main() {
     let mut q = Qubit::new();
 
     println!("{:?}", q);
+
+    q.X();
+
+    println!("{:?}", q);
 }
