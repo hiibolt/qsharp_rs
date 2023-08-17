@@ -69,6 +69,7 @@ impl Qubit {
             .theta
             .to_degrees();
         
+        println!("Chance of being measured as on: {}%", (self.state[1][0].clone() * self.state[1][0].clone()).a * 100f32);
         println!("|0> {:?} | {} | {}°\n|1> {:?} | {} | {}°\n", self.state[0][0], alpha_bar, alpha_phase, self.state[1][0], beta_bar, beta_phase );
     }
     pub fn new () -> Self {
@@ -106,8 +107,8 @@ impl Qubit {
     #[allow(non_snake_case)]
     pub fn Z ( &mut self ) -> &Self {
         self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: -1f32 }],
-            vec![ComplexNumber { a: 0f32, b: 1f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
         ]) * self.state.clone();
         self
     }
