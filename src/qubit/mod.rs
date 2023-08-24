@@ -123,4 +123,13 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
+
+    // H Gate - 'Superposition' gate
+    pub fn H ( &mut self ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ONE_OVER_SQRT_2, ONE_OVER_SQRT_2],
+            vec![ONE_OVER_SQRT_2, NEG_ONE_OVER_SQRT_2]
+        ]) * self.state.clone();
+        self
+    }
 }
