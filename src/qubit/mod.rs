@@ -168,7 +168,7 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-    // R sub x gate - 'X rotation'
+    // R sub y gate - 'Y rotation'
     #[allow(non_snake_case)]
     pub fn R_y( &mut self, theta: f32 ) -> &Self {
         self.state = Matrix::new(vec![
@@ -177,12 +177,21 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-    // R sub x gate - 'X rotation'
+    // R sub z gate - 'Z rotation'
     #[allow(non_snake_case)]
     pub fn R_z( &mut self, theta: f32 ) -> &Self {
         self.state = Matrix::new(vec![
             vec![ComplexNumber { a: (-theta / 2f32).cos(), b: (-theta / 2f32).sin() }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: (theta / 2f32).cos(), b: (theta / 2f32).sin() }]
+        ]) * self.state.clone();
+        self
+    }
+    // R sub 1 gate - 'arbitrary phase gate'
+    #[allow(non_snake_case)]
+    pub fn R_1( &mut self, theta: f32 ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: theta.cos(), b: theta.sin() }]
         ]) * self.state.clone();
         self
     }
