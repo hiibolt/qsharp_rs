@@ -67,6 +67,16 @@ fn main() {
 
         system.dump();
     }
+    fn exercise_5 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("ONE");
+
+        q.S();
+        q.T();
+
+        system.dump();
+    }
 
     println!("Basic Example\n--------------------------");
     basic_example();
@@ -82,4 +92,7 @@ fn main() {
 
     println!("Exercise 4:\n--------------------------");
     exercise_4();
+
+    println!("Exercise 5:\n--------------------------");
+    exercise_5();
 }
