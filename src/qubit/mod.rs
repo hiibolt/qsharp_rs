@@ -157,4 +157,14 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
+
+    /* - Rotation Gates - */
+    #[allow(non_snake_case)]
+    pub fn Rx( &mut self, theta: f32 ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: (theta / 1f32).cos(), b: 0f32 }, ComplexNumber { a: 0f32, b: -(theta / 1f32).sin() }],
+            vec![ComplexNumber { a: 0f32, b: (theta / 1f32).sin() }, ComplexNumber { a: (theta / 1f32).cos(), b: 0f32 }]
+        ]) * self.state.clone();
+        self
+    }
 }
