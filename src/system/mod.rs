@@ -26,6 +26,7 @@ impl System {
         self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
     }
     pub fn allocate_ket ( &mut self, id: &str ) -> &mut Qubit {
+        println!("You should complete this process manually!\nQubits start in state |0>.");
         self.state.push(Qubit::ket(id));
         self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
     }
