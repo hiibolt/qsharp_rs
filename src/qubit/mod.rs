@@ -6,10 +6,14 @@ use crate::{
 use matrix::Matrix;
 use complex::ComplexNumber;
 
-const ONE_OVER_SQRT_2: ComplexNumber = ComplexNumber { a: 0.707106781f32, b: 0f32 };
-const I_OVER_SQRT_2: ComplexNumber = ComplexNumber { a: 0f32, b: 0.707106781f32 };
-const NEG_ONE_OVER_SQRT_2: ComplexNumber = ComplexNumber { a: -0.707106781f32, b: 0f32 };
-const NEG_I_OVER_SQRT_2: ComplexNumber = ComplexNumber { a: 0f32, b: -0.707106781f32 };
+
+const ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0.707106781f32, b: 0f32 };
+const I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: 0.707106781f32 };
+const NEG_ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: -0.707106781f32, b: 0f32 };
+const NEG_I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: -0.707106781f32 };
+
+const SQRT_TWO_OVER_TWO: f32 = std::f32::consts::SQRT_2 / 2f32;
+
 
 pub struct Qubit {
     state: Matrix
@@ -38,26 +42,26 @@ impl Qubit {
             },
             "PLUS" => Self{
                 state: Matrix::new(vec![
-                    vec![ONE_OVER_SQRT_2],
-                    vec![ONE_OVER_SQRT_2]
+                    vec![ONE_OVER_SQRT_TWO],
+                    vec![ONE_OVER_SQRT_TWO]
                 ])
             },
             "NEG" => Self{
                 state: Matrix::new(vec![
-                    vec![ONE_OVER_SQRT_2],
-                    vec![NEG_ONE_OVER_SQRT_2]
+                    vec![ONE_OVER_SQRT_TWO],
+                    vec![NEG_ONE_OVER_SQRT_TWO]
                 ])
             },
             "I" => Self{
                 state: Matrix::new(vec![
-                    vec![ONE_OVER_SQRT_2],
-                    vec![I_OVER_SQRT_2]
+                    vec![ONE_OVER_SQRT_TWO],
+                    vec![I_OVER_SQRT_TWO]
                 ])
             },
             "NEG_I" => Self{
                 state: Matrix::new(vec![
-                    vec![ONE_OVER_SQRT_2],
-                    vec![NEG_I_OVER_SQRT_2]
+                    vec![ONE_OVER_SQRT_TWO],
+                    vec![NEG_I_OVER_SQRT_TWO]
                 ])
             },
             _ => panic!("Not a valid or recognized ket state!")
@@ -94,6 +98,7 @@ impl Qubit {
 
 
     /* Gate Operations */
+    /* - PAULI GATES - */
     // X Gate - 'Not' Gate
     #[allow(non_snake_case)]
     pub fn X ( &mut self ) -> &Self {
@@ -103,7 +108,6 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-
     // Y Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Y ( &mut self ) -> &Self {
@@ -113,7 +117,6 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-
     // Z Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Z ( &mut self ) -> &Self {
@@ -124,11 +127,33 @@ impl Qubit {
         self
     }
 
+    /* - Hadamard Gates - */
     // H Gate - 'Superposition' gate
+    #[allow(non_snake_case)]
     pub fn H ( &mut self ) -> &Self {
         self.state = Matrix::new(vec![
-            vec![ONE_OVER_SQRT_2, ONE_OVER_SQRT_2],
-            vec![ONE_OVER_SQRT_2, NEG_ONE_OVER_SQRT_2]
+            vec![ONE_OVER_SQRT_TWO, ONE_OVER_SQRT_TWO],
+            vec![ONE_OVER_SQRT_TWO, NEG_ONE_OVER_SQRT_TWO]
+        ]) * self.state.clone();
+        self
+    }
+
+    /* - Phase Shift Gates - */
+    // S Gate - 'i phase flip'
+    #[allow(non_snake_case)]
+    pub fn S ( &mut self ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 1f32 }]
+        ]) * self.state.clone();
+        self
+    }
+    // T Gate - '45 deg' (might be wrong)
+    #[allow(non_snake_case)]
+    pub fn T ( &mut self ) -> &Self {
+        self.state = Matrix::new(vec![
+            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: SQRT_TWO_OVER_TWO, b: SQRT_TWO_OVER_TWO }]
         ]) * self.state.clone();
         self
     }
