@@ -57,6 +57,16 @@ fn main() {
 
         system.dump();
     }
+    fn exercise_4 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        q.X();
+        q.H();
+
+        system.dump();
+    }
 
     println!("Basic Example\n--------------------------");
     basic_example();
@@ -69,4 +79,7 @@ fn main() {
 
     println!("Exercise 3:\n--------------------------");
     exercise_3();
+
+    println!("Exercise 4:\n--------------------------");
+    exercise_4();
 }
