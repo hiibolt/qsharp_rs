@@ -26,6 +26,7 @@ fn main() {
 
         system.dump();
     }
+    /* The Y gate */
     fn exercise_1 () {
         let mut system = System::new();
 
@@ -35,6 +36,7 @@ fn main() {
         
         system.dump();
     }
+    /* Applying a global phase i */
     fn exercise_2 () {
         let mut system = System::new();
 
@@ -46,6 +48,7 @@ fn main() {
 
         system.dump();
     }
+    /* Applying a -1 phase to |0>state */
     fn exercise_3 () {
         let mut system = System::new();
 
@@ -57,6 +60,7 @@ fn main() {
 
         system.dump();
     }
+    /* Preparing a |-> state */
     fn exercise_4 () {
         let mut system = System::new();
 
@@ -67,6 +71,7 @@ fn main() {
 
         system.dump();
     }
+    /* Three-fourths phase */
     fn exercise_5 () {
         let mut system = System::new();
 
@@ -77,6 +82,7 @@ fn main() {
 
         system.dump();
     }
+    /* Preparing a rotated state */
     fn exercise_6 () {
         let mut system = System::new();
 
