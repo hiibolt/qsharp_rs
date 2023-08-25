@@ -93,9 +93,30 @@ fn main() {
 
         // It doesn't matter which is Y or X as
         // long as the correct trig function is used
-        let theta = alpha.atan2(beta) * 2f32;
+        let parameter_theta = beta.atan2(alpha) * 2f32;
 
-        q.R_y(theta);
+        q.R_y(parameter_theta);
+
+        system.dump();
+    }
+    /* Preparing an arbitrary state */
+    fn exercise_7 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        let alpha = 0.5f32;
+        let beta = 0.86602540378443864676372317075294f32; // (Square root of 0.75)
+        let theta = std::f32::consts::FRAC_PI_2;
+
+        // It doesn't matter which is Y or X as
+        // long as the correct trig function is used
+        let parameter_theta = beta.atan2(alpha) * 2f32;
+
+        q.R_y(parameter_theta);
+        q.measure();
+
+        q.R_1(theta);
 
         system.dump();
     }
@@ -120,4 +141,7 @@ fn main() {
 
     println!("Exercise 6:\n--------------------------");
     exercise_6();
+
+    println!("Exercise 7:\n--------------------------");
+    exercise_7();
 }
