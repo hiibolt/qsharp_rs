@@ -31,6 +31,5 @@ This allows fast computation without ever using matrices, which can be seen here
 
 
 ## Ranting
-- statements by the deranged:
-![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/b311f772-5f07-41e9-ba34-8e7d2053c680)
+- legit half of quantum circuitry documentation feels like it was obfusicated?? why are they gatekeeping this stuff?? call me a Microsoft meatrider but shoutout for them for being the only ones to properly document anything
 
