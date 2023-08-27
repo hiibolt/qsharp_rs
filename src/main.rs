@@ -144,4 +144,45 @@ fn main() {
 
     println!("Exercise 7:\n--------------------------");
     exercise_7();
+
+
+    /* Task 1.1. State flip: |0> to |1> and vice versa */
+    fn task1_1 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        q.X();
+
+        system.dump();
+    }
+    /* Task 1.2. Basis change: |0> to |+> and |1> to |-> (and vice versa) */
+    fn task1_2 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        q.H();
+
+        system.dump();
+    }
+    /* Task 1.3. Sign flip: |+> to |-> and vice versa. */
+    fn task1_3 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("PLUS");
+
+        q.Z();
+        
+        system.dump();
+    }
+
+    println!("Task 1.1:\n--------------------------");
+    task1_1();
+
+    println!("Task 1.2:\n--------------------------");
+    task1_2();
+
+    println!("Task 1.3:\n--------------------------");
+    task1_3();
 }
