@@ -2,6 +2,23 @@
 
 Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy, and packaged by Nix.
 
+## Cheat Sheets
+
+### Important Qubit States:
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/a2426cf8-d12c-4968-9047-28b6be5f765b)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/c3502af3-13ba-49d0-9988-617e2bc041a8)
+
+### Important Gates:
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/06347b68-043b-42c4-abb9-d79952f6dda0)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/4eba89c6-e36c-49b7-aadf-07fe8262c7b9)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/a8cb7192-14b1-49aa-87c7-74ed1a2df072)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/08a24839-be44-4eda-bd39-ea3463c82bbb)
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/b6d018c3-f7b1-4822-b78c-e053d78b5fe3)
+
+
+
+
+
 ## [Home Repository](https://github.com/microsoft/QuantumKatas/tree/c15d99e4e505a67ef58c2c60ae50d11b0d09a443)
 [Complex Arithmetic](https://github.com/microsoft/QuantumKatas/tree/c15d99e4e505a67ef58c2c60ae50d11b0d09a443/tutorials/ComplexArithmetic)
 
