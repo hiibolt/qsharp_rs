@@ -72,8 +72,8 @@ impl Qubit {
         let alpha_combined = self.state[0][0].a.clone().powi(2) + self.state[0][0].b.clone().powi(2);
         let beta_combined = self.state[1][0].a.clone().powi(2) + self.state[1][0].b.clone().powi(2);
 
-        let alpha_bar = String::from("#".repeat((alpha_combined * 20.).floor() as usize)) + &"_".repeat((20. - (alpha_combined * 20.).floor()) as usize);
-        let beta_bar = String::from("#".repeat((beta_combined * 20.).floor() as usize)) + &"_".repeat((20. - (beta_combined * 20.).floor()) as usize);
+        let alpha_bar = String::from("#".repeat((alpha_combined * 20.).round() as usize)) + &"_".repeat((20. - (alpha_combined * 20.).round()) as usize);
+        let beta_bar = String::from("#".repeat((beta_combined * 20.).round() as usize)) + &"_".repeat((20. - (beta_combined * 20.).round()) as usize);
 
         let alpha_phase = self.state[0][0]
             .clone().polar()
@@ -84,7 +84,7 @@ impl Qubit {
             .theta
             .to_degrees();
         
-        println!("Chance of being measured as on: {}%", (self.state[1][0].clone() * self.state[1][0].clone()).modulus()  * 100f32);
+        println!("Chance of being measured as on: {}%", ((self.state[1][0].clone() * self.state[1][0].clone()).modulus()  * 1000000f32).round() / 10000f32);
         println!("|0> {:?} | {} | {}°\n|1> {:?} | {} | {}°\n", self.state[0][0], alpha_bar, alpha_phase, self.state[1][0], beta_bar, beta_phase );
     }
     pub fn new () -> Self {
