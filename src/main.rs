@@ -176,6 +176,30 @@ fn main() {
         
         system.dump();
     }
+    /* Task 1.4. Amplitude change: |0> to |1>. */
+    fn task1_4 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+        let theta = std::f32::consts::FRAC_PI_2;
+
+        q.R_y(theta * 2f32);
+
+        system.dump();
+    }
+    /* Task 1.5. Phase flip */
+    fn task1_5 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("ONE");
+
+        q.S();
+
+        // Alternatively, using the R1 gate suffices:
+        // q.R_1(std::consts::f32::FRAC_PI_2)
+
+        system.dump();
+    }
 
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -185,4 +209,10 @@ fn main() {
 
     println!("Task 1.3:\n--------------------------");
     task1_3();
+
+    println!("Task 1.4:\n--------------------------");
+    task1_4();
+
+    println!("Task 1.5:\n--------------------------");
+    task1_5();
 }
