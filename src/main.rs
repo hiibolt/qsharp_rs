@@ -211,6 +211,19 @@ fn main() {
 
         system.dump();
     }
+    /* Task 1.7. Global phase change */
+    fn task1_7() {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("PLUS");
+
+        q.Z();
+        q.X();
+        q.Z();
+        q.X();
+
+        system.dump();
+    }
 
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -229,4 +242,7 @@ fn main() {
 
     println!("Task 1.6:\n--------------------------");
     task1_6();
+
+    println!("Task 1.7:\n--------------------------");
+    task1_7();
 }
