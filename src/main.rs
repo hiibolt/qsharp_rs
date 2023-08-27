@@ -200,6 +200,17 @@ fn main() {
 
         system.dump();
     }
+    /* Task 1.6. Phase Change */
+    fn task1_6 () {
+        let mut system = System::new();
+
+        let q = system.allocate();
+        let theta = std::f32::consts::FRAC_PI_2;
+
+        q.R_1( theta );
+
+        system.dump();
+    }
 
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -215,4 +226,7 @@ fn main() {
 
     println!("Task 1.5:\n--------------------------");
     task1_5();
+
+    println!("Task 1.6:\n--------------------------");
+    task1_6();
 }
