@@ -146,6 +146,7 @@ fn main() {
     exercise_7();
 
 
+    /* QUANTUM KATAS */
     /* Task 1.1. State flip: |0> to |1> and vice versa */
     fn task1_1 () {
         let mut system = System::new();
@@ -225,6 +226,19 @@ fn main() {
         system.dump();
     }
 
+    /* BASIC GATES EXERCISES */
+    /* Task 1.1. State flip: |0> to |1> and vice versa */
+    fn bg_task1_1() {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        q.X();
+
+        system.dump();
+    }
+
+    println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
 
@@ -245,4 +259,9 @@ fn main() {
 
     println!("Task 1.7:\n--------------------------");
     task1_7();
+
+
+    println!("BASIC GATES EXERCISES");
+    println!("BG Task 1.1:\n--------------------------");
+    bg_task1_1();
 }
