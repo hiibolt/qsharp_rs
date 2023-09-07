@@ -238,6 +238,17 @@ fn main() {
         system.dump();
     }
 
+    /* Task 1.2. Basis change: |0> to |+> and |1> to |-> (and vice versa) */
+    fn bg_task1_2() {
+        let mut system = System::new();
+
+        let q = system.allocate();
+
+        q.H();
+
+        system.dump();
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -264,4 +275,7 @@ fn main() {
     println!("BASIC GATES EXERCISES");
     println!("BG Task 1.1:\n--------------------------");
     bg_task1_1();
+
+    println!("BG Task 1.2:\n--------------------------");
+    bg_task1_2();
 }
