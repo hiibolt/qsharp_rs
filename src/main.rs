@@ -260,6 +260,18 @@ fn main() {
         system.dump();
     }
 
+    /* Task 1.4. Amplitude change: |0> to cos(alpha)|0> + sin(alpha)|1>. */
+    fn bg_task1_4() {
+        let mut system = System::new();
+
+        let q = system.allocate();
+        let alpha = 32.334f32;
+
+        q.R_y(alpha * 2f32);
+
+        system.dump();
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -292,4 +304,7 @@ fn main() {
 
     println!("BG Task 1.3:\n--------------------------");
     bg_task1_3();
+
+    println!("BG Task 1.4:\n--------------------------");
+    bg_task1_4();
 }
