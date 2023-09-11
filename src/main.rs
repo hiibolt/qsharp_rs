@@ -286,6 +286,19 @@ fn main() {
         system.dump();
     }
 
+    /* Task 1.6. Phase change */
+    fn bg_task1_6 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("ONE");
+        let alpha = std::f32::consts::FRAC_PI_2;
+
+        q.R_1( alpha );
+
+        system.dump();
+
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -324,4 +337,7 @@ fn main() {
 
     println!("BG Task 1.5:\n--------------------------");
     bg_task1_5();
+
+    println!("BG Task 1.6:\n--------------------------");
+    bg_task1_6();
 }
