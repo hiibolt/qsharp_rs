@@ -296,7 +296,20 @@ fn main() {
         q.R_1( alpha );
 
         system.dump();
+    }
 
+    /* Task 1.7. Global phase change */
+    fn bg_task1_7 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("PLUS");
+
+        q.Z();
+        q.X();
+        q.Z();
+        q.X();
+
+        system.dump();
     }
 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
@@ -340,4 +353,7 @@ fn main() {
 
     println!("BG Task 1.6:\n--------------------------");
     bg_task1_6();
+
+    println!("BG Task 1.7:\n--------------------------");
+    bg_task1_7();
 }
