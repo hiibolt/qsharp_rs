@@ -213,7 +213,7 @@ fn main() {
         system.dump();
     }
     /* Task 1.7. Global phase change */
-    fn task1_7() {
+    fn task1_7 () {
         let mut system = System::new();
 
         let q = system.allocate_ket("PLUS");
@@ -228,7 +228,7 @@ fn main() {
 
     /* BASIC GATES EXERCISES */
     /* Task 1.1. State flip: |0> to |1> and vice versa */
-    fn bg_task1_1() {
+    fn bg_task1_1 () {
         let mut system = System::new();
 
         let q = system.allocate();
@@ -239,7 +239,7 @@ fn main() {
     }
 
     /* Task 1.2. Basis change: |0> to |+> and |1> to |-> (and vice versa) */
-    fn bg_task1_2() {
+    fn bg_task1_2 () {
         let mut system = System::new();
 
         let q = system.allocate();
@@ -250,7 +250,7 @@ fn main() {
     }
 
     /* Task 1.3. Basis change: |0> to |+> and |1> to |-> (and vice versa) */
-    fn bg_task1_3() {
+    fn bg_task1_3 () {
         let mut system = System::new();
 
         let q = system.allocate_ket("PLUS");
@@ -261,13 +261,27 @@ fn main() {
     }
 
     /* Task 1.4. Amplitude change: |0> to cos(alpha)|0> + sin(alpha)|1>. */
-    fn bg_task1_4() {
+    fn bg_task1_4 () {
         let mut system = System::new();
 
         let q = system.allocate();
         let alpha = 32.334f32;
 
         q.R_y(alpha * 2f32);
+
+        system.dump();
+    }
+
+    /* Task 1.5. Phase Flip */
+    fn bg_task1_5 () {
+        let mut system = System::new();
+
+        let q = system.allocate_ket("ONE");
+
+        q.S();
+
+        // or, 
+        // q.T();
 
         system.dump();
     }
@@ -307,4 +321,7 @@ fn main() {
 
     println!("BG Task 1.4:\n--------------------------");
     bg_task1_4();
+
+    println!("BG Task 1.5:\n--------------------------");
+    bg_task1_5();
 }
