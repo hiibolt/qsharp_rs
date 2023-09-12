@@ -8,6 +8,18 @@ use qubit::Qubit;
 pub struct System {
     state: Vec<Qubit>,
 }
+impl std::ops::Index<usize> for System {
+    type Output = Qubit;
+
+    fn index ( &self, index: usize ) -> &Self::Output {
+        &self.state[index]
+    }
+}
+impl std::ops::IndexMut<usize> for System {
+    fn index_mut ( &mut self, index: usize ) -> &mut Self::Output {
+        &mut self.state[index]
+    }
+}
 impl System {
     pub fn dump ( self ) {
         println!("Machine Dump:");

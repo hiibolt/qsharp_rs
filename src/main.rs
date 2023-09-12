@@ -312,6 +312,21 @@ fn main() {
         system.dump();
     }
 
+    /* Task 1.8. Bell state change -1 */
+    fn bg_task1_8 () {
+        todo!();
+    }
+
+    /* MULTI QUBIT SYSTEMS EXERCISES */
+    /* Exercise 1: Show that the state is separable */
+    // Yes, (1/sqrt(2))[ 1, -i ] * (1/sqrt(2))[1, i]
+
+    /* Exercise 2: Is this separable? */
+    // No, the system of equations has no solution
+
+    /* Exercise 3: Prepare a basis state */
+    
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -335,7 +350,7 @@ fn main() {
     task1_7();
 
 
-    println!("BASIC GATES EXERCISES");
+    println!("BASIC GATES EXERCISES (INCOMPLETE)");
     println!("BG Task 1.1:\n--------------------------");
     bg_task1_1();
 
