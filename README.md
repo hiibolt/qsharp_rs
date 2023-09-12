@@ -15,6 +15,8 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/08a24839-be44-4eda-bd39-ea3463c82bbb)
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/b6d018c3-f7b1-4822-b78c-e053d78b5fe3)
 
+#### Multi-Qubit Basis States:
+![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/1ccf0381-f6d0-492f-b01a-d1e3c42cd522)
 
 
 
