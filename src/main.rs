@@ -365,6 +365,22 @@ fn main() {
         system.dump();
     }
 
+    /* Exercise 6: Prepare a superposition with complex amplitudes */
+    fn mqs_exercise_6 () {
+        let mut system = System::new();
+
+        system.allocate();
+        system.allocate();
+
+        system[0].H();
+        system[0].R_1(std::f32::consts::FRAC_PI_2);
+
+        system[1].H();
+        system[1].R_1(std::f32::consts::FRAC_PI_4);
+
+        system.dump();
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -419,4 +435,7 @@ fn main() {
 
     println!("MQS Exercise 5:\n--------------------------");
     mqs_exercise_5();
+
+    println!("MQS Exercise 6:\n--------------------------");
+    mqs_exercise_6();
 }
