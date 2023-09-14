@@ -381,6 +381,23 @@ fn main() {
         system.dump();
     }
 
+
+    /* MULTI QUBIT GATES EXERCISES */
+    /* Exercise 1: Compound Gate */
+    fn mqg_exercise_1 () {
+        let mut system = System::new();
+
+        system.allocate();
+        system.allocate();
+        system.allocate();
+
+        system[0].S();
+        system[1].I();
+        system[2].Y();
+
+        system.dump();
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -438,4 +455,8 @@ fn main() {
 
     println!("MQS Exercise 6:\n--------------------------");
     mqs_exercise_6();
+
+    println!("MULTI QUBIT GATE EXERCISES (INCOMPLETE)");
+    println!("MQG Exercise 1:\n--------------------------");
+    mqg_exercise_1();
 }
