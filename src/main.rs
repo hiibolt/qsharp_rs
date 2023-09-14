@@ -426,7 +426,7 @@ fn main() {
     println!("BG Task 1.7:\n--------------------------");
     bg_task1_7();
 
-    println!("MULTI QUBIT SYSTEM EXERCISES (INCOMPLETE)");
+    println!("MULTI QUBIT SYSTEM EXERCISES (DONE)");
     println!("MQS Exercise 3:\n--------------------------");
     mqs_exercise_3();
 

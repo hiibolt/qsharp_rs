@@ -107,6 +107,13 @@ impl Qubit {
 
 
     /* Gate Operations */
+    /* - IDENTITY GATE - */
+    // Identity Gate - 'No effect' Gate
+    #[allow(non_snake_case)]
+    pub fn I ( &mut self ) -> &Self {
+        self
+    }
+
     /* - PAULI GATES - */
     // X Gate - 'Not' Gate
     #[allow(non_snake_case)]
