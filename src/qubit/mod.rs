@@ -202,7 +202,7 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-    // R sub 1 gate - 'arbitrary phase gate'
+    // R sub 1 gate - 'Arbitrary phase gate'
     #[allow(non_snake_case)]
     pub fn R_1( &mut self, theta: f32 ) -> &Self {
         self.state = Matrix::new(vec![
@@ -210,5 +210,12 @@ impl Qubit {
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: theta.cos(), b: theta.sin() }]
         ]) * self.state.clone();
         self
+    }
+
+    /* - MULTI-QUBIT GATES - */
+    // CNOT Gate - 'Flip 2 if 1 gate'
+    #[allow(non_snake_case)]
+    pub fn CNOT( &mut self, determining_qubit: &Qubit ) -> &Self {
+        todo!();
     }
 }
