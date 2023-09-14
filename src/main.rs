@@ -337,6 +337,19 @@ fn main() {
         system.dump();
     }
 
+    /* Exercise 4: Prepare a superposition of two basis states */
+    fn mqs_exercise_4 () {
+        let mut system = System::new();
+
+        system.allocate();
+        system.allocate();
+
+        system[1].X();
+        system[1].H();
+
+        system.dump();
+    }
+
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();
@@ -385,4 +398,7 @@ fn main() {
     println!("MULTI QUBIT SYSTEM EXERCISES (INCOMPLETE)");
     println!("MQS Exercise 3:\n--------------------------");
     mqs_exercise_3();
+
+    println!("MQS Exercise 4:\n--------------------------");
+    mqs_exercise_4();
 }
