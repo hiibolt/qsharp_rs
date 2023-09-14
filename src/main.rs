@@ -325,7 +325,17 @@ fn main() {
     // No, the system of equations has no solution
 
     /* Exercise 3: Prepare a basis state */
-    
+    fn mqs_exercise_3 () {
+        let mut system = System::new();
+
+        system.allocate_ket("ONE");
+        system.allocate();
+
+        system[0].X();
+        system[1].X();
+
+        system.dump();
+    }
 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
@@ -371,4 +381,8 @@ fn main() {
 
     println!("BG Task 1.7:\n--------------------------");
     bg_task1_7();
+
+    println!("MULTI QUBIT SYSTEM EXERCISES (INCOMPLETE)");
+    println!("MQS Exercise 3:\n--------------------------");
+    mqs_exercise_3();
 }

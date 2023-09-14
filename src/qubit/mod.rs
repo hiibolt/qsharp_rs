@@ -16,7 +16,16 @@ const SQRT_TWO_OVER_TWO: f32 = std::f32::consts::SQRT_2 / 2f32;
 
 
 pub struct Qubit {
-    state: Matrix
+    pub state: Matrix
+}
+impl std::ops::Mul<Qubit> for Qubit {
+    type Output = Matrix;
+
+    fn mul ( self, to_mul: Qubit ) -> Matrix {
+        let mut state = self.state.clone();
+
+        state * to_mul.state
+    }
 }
 impl std::fmt::Debug for Qubit {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {

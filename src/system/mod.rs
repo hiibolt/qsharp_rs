@@ -23,9 +23,19 @@ impl std::ops::IndexMut<usize> for System {
 impl System {
     pub fn dump ( self ) {
         println!("Machine Dump:");
-        for qubit in self.state {
-            qubit.measure();
+        let mut base = self.state[0].state.clone();
+        for i in 1..self.state.len() {
+            base = base.tensor_product(&self.state[i].state);
         }
+        println!("{:?}", base);
+    }
+    pub fn dump_register ( &self, index: usize ) {
+        println!("Register Dump:");
+
+        if index > self.state.len() {
+            panic!("Register {} does not exist!", index);
+        }
+        self.state[index].measure()
     }
     pub fn new () -> Self {
         return System {
