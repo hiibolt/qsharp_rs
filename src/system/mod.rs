@@ -4,12 +4,27 @@ use crate::{
     qubit
 };
 use qubit::Qubit;
+use matrix::Matrix;
 
 pub struct System {
-    state: Vec<Qubit>,
+    state: Vec<StateEntry>,
 }
+pub enum StateEntry {
+    StandardQubit(Qubit),
+    EntangledState(Matrix),
+    EntangledStatePtr(usize)
+}
+impl StateEntry {
+    pub fn unwrap_qubit( &mut self ) -> &mut Qubit {
+        match self {
+            StateEntry::StandardQubit(ref mut q) => { return q; },
+            StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => { panic!("Is entangled! Not a lone qubit."); },
+        }
+    }
+}
+
 impl std::ops::Index<usize> for System {
-    type Output = Qubit;
+    type Output = StateEntry;
 
     fn index ( &self, index: usize ) -> &Self::Output {
         &self.state[index]
@@ -23,9 +38,26 @@ impl std::ops::IndexMut<usize> for System {
 impl System {
     pub fn dump ( self ) {
         println!("Machine Dump:");
-        let mut base = self.state[0].state.clone();
+        let mut base;
+        match &self.state[0] {
+            StateEntry::StandardQubit(q) => {
+                base = q.state.clone();
+            },
+            StateEntry::EntangledState(s) => {
+                base = s.clone();
+            }
+            StateEntry::EntangledStatePtr(_) => panic!("Impossible")
+        }
         for i in 1..self.state.len() {
-            base = base.tensor_product(&self.state[i].state);
+            match &self.state[i] {
+                StateEntry::StandardQubit(q) => {
+                    base = base.tensor_product(&q.state);
+                },
+                StateEntry::EntangledState(s) => {
+                    base = base.tensor_product(&s);
+                },
+                StateEntry::EntangledStatePtr(_) => {}
+            }
         }
         println!("{:?}", base);
     }
@@ -35,7 +67,15 @@ impl System {
         if index > self.state.len() {
             panic!("Register {} does not exist!", index);
         }
-        self.state[index].measure()
+
+        match &self.state[index] {
+            StateEntry::StandardQubit(q) => {
+                q.measure();
+            },
+            StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => {
+                println!("Register is currently entangled!");
+            }
+        }
     }
     pub fn new () -> Self {
         return System {
@@ -44,12 +84,29 @@ impl System {
     }
 
     pub fn allocate ( &mut self ) -> &mut Qubit {
-        self.state.push(Qubit::new());
-        self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
+        self.state.push(StateEntry::StandardQubit(Qubit::new()));
+        match self.state
+            .last_mut()
+            .expect("Since we just allocated an element, it should be impossible to have no element")
+        {
+            StateEntry::StandardQubit(ref mut q) => {
+                return q;
+            },
+            StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => panic!("Impossible behavior")
+        }
     }
     pub fn allocate_ket ( &mut self, id: &str ) -> &mut Qubit {
         println!("You should complete this process manually!\nQubits start in state |0>.");
-        self.state.push(Qubit::ket(id));
-        self.state.last_mut().expect("Since we just allocated an element, it should be impossible to have no element")
+        self.state.push(StateEntry::StandardQubit(Qubit::ket(id)));
+
+        match self.state
+            .last_mut()
+            .expect("Since we just allocated an element, it should be impossible to have no element")
+        {
+            StateEntry::StandardQubit(ref mut q) => {
+                return q;
+            },
+            StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => panic!("Impossible behavior")
+        }
     }
 }

@@ -14,7 +14,6 @@ const NEG_I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: -0.707106
 
 const SQRT_TWO_OVER_TWO: f32 = std::f32::consts::SQRT_2 / 2f32;
 
-
 pub struct Qubit {
     pub state: Matrix
 }

@@ -331,8 +331,8 @@ fn main() {
         system.allocate_ket("ONE");
         system.allocate();
 
-        system[0].X();
-        system[1].X();
+        system[0].unwrap_qubit().X();
+        system[1].unwrap_qubit().X();
 
         system.dump();
     }
@@ -344,8 +344,8 @@ fn main() {
         system.allocate();
         system.allocate();
 
-        system[1].X();
-        system[1].H();
+        system[1].unwrap_qubit().X();
+        system[1].unwrap_qubit().H();
 
         system.dump();
     }
@@ -357,10 +357,10 @@ fn main() {
         system.allocate();
         system.allocate();
 
-        system[0].H();
+        system[0].unwrap_qubit().H();
 
-        system[1].X();
-        system[1].H();
+        system[1].unwrap_qubit().X();
+        system[1].unwrap_qubit().H();
 
         system.dump();
     }
@@ -372,11 +372,11 @@ fn main() {
         system.allocate();
         system.allocate();
 
-        system[0].H();
-        system[0].R_1(std::f32::consts::FRAC_PI_2);
+        system[0].unwrap_qubit().H();
+        system[0].unwrap_qubit().R_1(std::f32::consts::FRAC_PI_2);
 
-        system[1].H();
-        system[1].R_1(std::f32::consts::FRAC_PI_4);
+        system[1].unwrap_qubit().H();
+        system[1].unwrap_qubit().R_1(std::f32::consts::FRAC_PI_4);
 
         system.dump();
     }
@@ -391,9 +391,9 @@ fn main() {
         system.allocate();
         system.allocate();
 
-        system[0].S();
-        system[1].I();
-        system[2].Y();
+        system[0].unwrap_qubit().S();
+        system[1].unwrap_qubit().I();
+        system[2].unwrap_qubit().Y();
 
         system.dump();
     }
