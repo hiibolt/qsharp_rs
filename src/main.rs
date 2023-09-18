@@ -397,6 +397,19 @@ fn main() {
 
         system.dump();
     }
+    /* Exercise 2: Preparing a Bell state */
+    fn mqg_exercise_2 () {
+        let mut system = System::new();
+
+        system.allocate();
+        system.allocate();
+
+        system[0].unwrap_qubit().X();
+        system[1].unwrap_qubit().X();
+        system.CNOT(0, 1);
+
+        system.dump();
+    }
 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
@@ -459,4 +472,7 @@ fn main() {
     println!("MULTI QUBIT GATE EXERCISES (INCOMPLETE)");
     println!("MQG Exercise 1:\n--------------------------");
     mqg_exercise_1();
+
+    println!("MQG Exercise 2:\n--------------------------");
+    mqg_exercise_2();
 }

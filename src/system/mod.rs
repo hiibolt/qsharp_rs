@@ -5,6 +5,7 @@ use crate::{
 };
 use qubit::Qubit;
 use matrix::Matrix;
+use complex::ComplexNumber;
 
 pub struct System {
     state: Vec<StateEntry>,
@@ -15,7 +16,7 @@ pub enum StateEntry {
     EntangledStatePtr(usize)
 }
 impl StateEntry {
-    pub fn unwrap_qubit( &mut self ) -> &mut Qubit {
+    pub fn unwrap_qubit ( &mut self ) -> &mut Qubit {
         match self {
             StateEntry::StandardQubit(ref mut q) => { return q; },
             StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => { panic!("Is entangled! Not a lone qubit."); },
@@ -107,6 +108,38 @@ impl System {
                 return q;
             },
             StateEntry::EntangledState(_) | StateEntry::EntangledStatePtr(_) => panic!("Impossible behavior")
+        }
+    }
+    
+    /* Multi-Qubit Gates */
+    #[allow(non_snake_case)]
+    pub fn CNOT ( &mut self, register_1_ind: usize, register_2_ind: usize ) {
+        match &self.state[register_1_ind] {
+            StateEntry::EntangledState(_) => { todo!(); },
+            StateEntry::EntangledStatePtr(_) => { todo!()},
+            StateEntry::StandardQubit(qubit_1) => {
+                match &self.state[register_1_ind] {
+                    StateEntry::EntangledState(_) => { todo!(); },
+                    StateEntry::EntangledStatePtr(_) => { todo!()},
+                    StateEntry::StandardQubit(qubit_2) => {
+                        let tensor_product = qubit_1.state.clone().tensor_product(&qubit_2.state);
+                        let gate = Matrix::new(
+                            vec![
+                                vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
+                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+                            ]
+                        );
+                        println!("{:?} | {:?}", tensor_product, gate);
+                        let final_result = gate.clone() * tensor_product.clone();
+                        println!("{:?}", final_result);
+
+                        self.state[register_1_ind] = StateEntry::EntangledState(final_result);
+                        self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_2_ind);
+                    }
+                }
+            }
         }
     }
 }
