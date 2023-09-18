@@ -405,7 +405,6 @@ fn main() {
         system.allocate();
 
         system[0].unwrap_qubit().X();
-        system[1].unwrap_qubit().X();
         system.CNOT(0, 1);
 
         system.dump();

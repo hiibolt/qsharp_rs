@@ -118,7 +118,7 @@ impl System {
             StateEntry::EntangledState(_) => { todo!(); },
             StateEntry::EntangledStatePtr(_) => { todo!()},
             StateEntry::StandardQubit(qubit_1) => {
-                match &self.state[register_1_ind] {
+                match &self.state[register_2_ind] {
                     StateEntry::EntangledState(_) => { todo!(); },
                     StateEntry::EntangledStatePtr(_) => { todo!()},
                     StateEntry::StandardQubit(qubit_2) => {
@@ -131,12 +131,10 @@ impl System {
                                 vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
                             ]
                         );
-                        println!("{:?} | {:?}", tensor_product, gate);
                         let final_result = gate.clone() * tensor_product.clone();
-                        println!("{:?}", final_result);
 
                         self.state[register_1_ind] = StateEntry::EntangledState(final_result);
-                        self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_2_ind);
+                        self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_1_ind);
                     }
                 }
             }
