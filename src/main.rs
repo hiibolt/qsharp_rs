@@ -409,6 +409,26 @@ fn main() {
 
         system.dump();
     }
+    /* Exercise 3: Swapping two qubits */
+    fn mqg_exercise_3 () {
+        let mut system = System::new();
+
+        system.allocate();
+        system.allocate();
+
+
+        system[0].unwrap_qubit().X();
+
+        system.dump_register(0);
+        system.dump_register(1);
+
+        system.SWAP(0, 1);
+
+        system.dump_register(0);
+        system.dump_register(1);
+
+        system.dump();
+    }
 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
@@ -474,4 +494,7 @@ fn main() {
 
     println!("MQG Exercise 2:\n--------------------------");
     mqg_exercise_2();
+
+    println!("MQG Exercise 3:\n--------------------------");
+    mqg_exercise_3();
 }
