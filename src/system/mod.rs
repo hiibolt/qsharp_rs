@@ -116,11 +116,11 @@ impl System {
     pub fn CNOT ( &mut self, register_1_ind: usize, register_2_ind: usize ) {
         match &self.state[register_1_ind] {
             StateEntry::EntangledState(_) => { todo!(); },
-            StateEntry::EntangledStatePtr(_) => { todo!()},
+            StateEntry::EntangledStatePtr(_) => { todo!(); },
             StateEntry::StandardQubit(qubit_1) => {
                 match &self.state[register_2_ind] {
                     StateEntry::EntangledState(_) => { todo!(); },
-                    StateEntry::EntangledStatePtr(_) => { todo!()},
+                    StateEntry::EntangledStatePtr(_) => { todo!(); },
                     StateEntry::StandardQubit(qubit_2) => {
                         let tensor_product = qubit_1.state.clone().tensor_product(&qubit_2.state);
                         let gate = Matrix::new(
