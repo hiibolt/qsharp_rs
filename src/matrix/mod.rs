@@ -16,7 +16,8 @@ use std::ops::{
     MulAssign,
     DivAssign,
 
-    Index
+    Index,
+    IndexMut
 };
 
 #[derive(Clone, PartialEq)]
@@ -283,6 +284,11 @@ impl Index<usize> for Matrix {
 
     fn index ( &self, index: usize ) -> &Self::Output {
         &(self.value[index])
+    }
+}
+impl IndexMut<usize> for Matrix {
+    fn index_mut ( &mut self, index: usize ) -> &mut Self::Output {
+        &mut (self.value[index])
     }
 }
 

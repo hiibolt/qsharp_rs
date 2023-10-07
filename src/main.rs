@@ -435,8 +435,14 @@ fn main() {
 
         system.allocate();
         system.allocate();
+        system.allocate();
 
+        system[0].unwrap_qubit().X();
+        system[1].unwrap_qubit().X();
+
+        system.CONTROLLED_X( 0, vec![1, 2] );
         
+        system.dump();
     }
     /* Exercise 5: */ 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
@@ -506,4 +512,7 @@ fn main() {
 
     println!("MQG Exercise 3:\n--------------------------");
     mqg_exercise_3();
+
+    println!("MQG Exercise 4:\n--------------------------");
+    mqg_exercise_4();
 }
