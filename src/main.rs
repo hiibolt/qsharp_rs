@@ -429,7 +429,16 @@ fn main() {
 
         system.dump();
     }
+    /* Exercise 4: Controlled Rotation */
+    fn mqg_exercise_4 () {
+        let mut system = System::new();
 
+        system.allocate();
+        system.allocate();
+
+        
+    }
+    /* Exercise 5: */ 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
     task1_1();

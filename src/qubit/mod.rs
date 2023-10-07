@@ -210,11 +210,4 @@ impl Qubit {
         ]) * self.state.clone();
         self
     }
-
-    /* - MULTI-QUBIT GATES - */
-    // CNOT Gate - 'Flip 2 if 1 gate'
-    #[allow(non_snake_case)]
-    pub fn CNOT( &mut self, determining_qubit: &Qubit ) -> &Self {
-        todo!();
-    }
 }
