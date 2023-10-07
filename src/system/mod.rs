@@ -115,10 +115,10 @@ impl System {
     // SWAP - 'Switch Q_1 and Q_2'
     #[allow(non_snake_case)]
     pub fn SWAP ( &mut self, register_1_ind: usize, register_2_ind: usize ) {
-        let qubit_1: &mut Qubit = (&mut self.state).get_mut(register_1_ind).unwrap().unwrap_qubit();
-        let qubit_2: &mut Qubit = (&mut self.state).get_mut(register_2_ind).unwrap().unwrap_qubit();
+        let qubit_1_state: Matrix = self.state[register_1_ind].unwrap_qubit().state.clone();
+        let qubit_2_state: Matrix = self.state[register_2_ind].unwrap_qubit().state.clone();
 
-        let tensor_product = qubit_1.state.clone().tensor_product(&qubit_2.state);
+        let tensor_product = qubit_1_state.tensor_product(&qubit_2_state);
         let gate = Matrix::new(
             vec![
                 vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
@@ -137,31 +137,22 @@ impl System {
     // CNOT - 'Swap Q_2 if Q_1'
     #[allow(non_snake_case)]
     pub fn CNOT ( &mut self, register_1_ind: usize, register_2_ind: usize ) {
-        match &self.state[register_1_ind] {
-            StateEntry::EntangledState(_) => { todo!(); },
-            StateEntry::EntangledStatePtr(_) => { todo!(); },
-            StateEntry::StandardQubit(qubit_1) => {
-                match &self.state[register_2_ind] {
-                    StateEntry::EntangledState(_) => { todo!(); },
-                    StateEntry::EntangledStatePtr(_) => { todo!(); },
-                    StateEntry::StandardQubit(qubit_2) => {
-                        let tensor_product = qubit_1.state.clone().tensor_product(&qubit_2.state);
-                        let gate = Matrix::new(
-                            vec![
-                                vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
-                                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-                            ]
-                        );
-                        let final_result = gate.clone() * tensor_product.clone();
+        let qubit_1_state: Matrix = self.state[register_1_ind].unwrap_qubit().state.clone();
+        let qubit_2_state: Matrix = self.state[register_2_ind].unwrap_qubit().state.clone();
 
-                        self.state[register_1_ind] = StateEntry::EntangledState(final_result);
-                        self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_1_ind);
-                    }
-                }
-            }
-        }
+        let tensor_product = qubit_1_state.tensor_product(&qubit_2_state);
+        let gate = Matrix::new(
+            vec![
+                vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
+                vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
+            ]
+        );
+        let final_result = gate.clone() * tensor_product.clone();
+
+        self.state[register_1_ind] = StateEntry::EntangledState(final_result);
+        self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_1_ind);
     }
 
     // CR_x - 'Controlled R_x'
