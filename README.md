@@ -50,8 +50,8 @@ This allows fast computation without ever using matrices, which can be seen here
 
 ## Gate-Building
 ### I-Gate usage to access only certain qubits
-Tensor Product with I-Gate as the base of the operation: Push up
-Tensor Product with I-Gate as the operand of the operation: Push back
+- Tensor Product with I-Gate as the base of the operation: Push up
+- Tensor Product with I-Gate as the operand of the operation: Push back
 ### Example Gate Usage:
 Given a system of 3 qubits, in order to ignore the first and third qubits and only apply the X-Gate to the second qubit, you would build a gate as follows:
 ($$I \otimes X \otimes I) * Q_s$$
