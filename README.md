@@ -54,7 +54,7 @@ This allows fast computation without ever using matrices, which can be seen here
 - Tensor Product with I-Gate as the operand of the operation: Push back
 ### Example Gate Usage:
 Given a system of 3 qubits, in order to ignore the first and third qubits and only apply the X-Gate to the second qubit, you would build a gate as follows:
-($$I \otimes X \otimes I) * Q_s$$
+$$(I \otimes X \otimes I) * Q_s$$
 
 ## Ranting
 - legit half of quantum circuitry documentation feels like it was obfusicated?? why are they gatekeeping this stuff?? call me a Microsoft meatrider but shoutout for them for being the only ones to properly document anything
