@@ -48,6 +48,13 @@ Basic example of how the X (inversion) gate can be represented solely with Dirac
 This allows fast computation without ever using matrices, which can be seen here flipping |0> to |1> in Dirac notation:
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/9498038e-d15a-418b-a36b-3d329af5f0f8)
 
+## Gate-Building
+### I-Gate usage to access only certain qubits
+Tensor Product with I-Gate as the base of the operation: Push up
+Tensor Product with I-Gate as the operand of the operation: Push back
+### Example Gate Usage:
+Given a system of 3 qubits, in order to ignore the first and third qubits and only apply the X-Gate to the second qubit, you would build a gate as follows:
+($$I \otimes X \otimes I) * Q_s$$
 
 ## Ranting
 - legit half of quantum circuitry documentation feels like it was obfusicated?? why are they gatekeeping this stuff?? call me a Microsoft meatrider but shoutout for them for being the only ones to properly document anything
