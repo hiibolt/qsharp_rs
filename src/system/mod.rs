@@ -111,6 +111,42 @@ impl System {
         }
     }
 
+    pub fn build_gate( &self, inputs: Vec<(usize, Matrix)> ) -> Matrix {
+        let mut current_idx: usize = 0usize;
+        let mut base_matrix = Matrix::new(vec![vec![ComplexNumber { a: 1f32, b: 0f32 }]]);
+        
+        for (idx, matrix) in inputs {
+            while idx > current_idx {
+                base_matrix = base_matrix.tensor_product( &Matrix::new(vec![
+                    vec![ComplexNumber {a: 1f32, b: 0f32}, ComplexNumber {a: 0f32, b: 0f32}],
+                    vec![ComplexNumber {a: 0f32, b: 0f32}, ComplexNumber {a: 1f32, b: 0f32}]
+                ] ) );
+                current_idx += 1;
+            }
+            println!("To_TEN: {:?}", matrix);
+            println!("To_TEN_BASE: {:?}", base_matrix);
+            base_matrix = base_matrix.tensor_product( &matrix );
+            println!("RESULT: {:?}", base_matrix);
+            current_idx += 1;
+        }
+
+        while current_idx < self.state.len() {
+            println!("HUUUH {:?}", base_matrix);
+            let to_mul = &Matrix::new(vec![
+                vec![ComplexNumber {a: 1f32, b: 0f32}, ComplexNumber {a: 0f32, b: 0f32}],
+                vec![ComplexNumber {a: 0f32, b: 0f32}, ComplexNumber {a: 1f32, b: 0f32}]
+            ] );
+            println!("{:?}", to_mul);
+            base_matrix = to_mul.tensor_product( &base_matrix );
+            println!("?");
+
+
+            current_idx += 1;
+        }
+
+        base_matrix
+    }
+
     /* - MULTI-QUBIT GATES - */
     // SWAP - 'Switch Q_1 and Q_2'
     #[allow(non_snake_case)]
@@ -134,7 +170,7 @@ impl System {
     }
 
     /* - CONTROLLED STANDARD GATES - */
-    // CNOT - 'Swap Q_2 if Q_1'
+    // CNOT - 'Swap Q_2 if Q_1' 
     #[allow(non_snake_case)]
     pub fn CNOT ( &mut self, register_1_ind: usize, register_2_ind: usize ) {
         let qubit_1_state: Matrix = self.state[register_1_ind].unwrap_qubit().state.clone();

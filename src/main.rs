@@ -5,6 +5,9 @@ mod system;
 
 use crate::qubit::*;
 use crate::system::*;
+// delete later, debug only
+use crate::complex::*;
+use crate::matrix::*;
 
 fn main() {
     fn basic_example () {
@@ -441,6 +444,11 @@ fn main() {
         system[1].unwrap_qubit().X();
 
         system.CONTROLLED_X( 0, vec![1, 2] );
+
+        println!("Built Gate: {:?}", system.build_gate( vec![(1, Matrix::new(vec![
+            vec![ComplexNumber{ a: 1f32, b: 0f32 }, ComplexNumber{ a: 0f32, b: 0f32}],
+            vec![ComplexNumber{ a: 0f32, b: 0f32 }, ComplexNumber{ a: 1f32, b: 0f32}]
+        ]))] ));
         
         system.dump();
     }
