@@ -6,13 +6,13 @@ use crate::{
 use matrix::Matrix;
 use complex::ComplexNumber;
 
-
 const ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0.707106781f32, b: 0f32 };
 const I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: 0.707106781f32 };
 const NEG_ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: -0.707106781f32, b: 0f32 };
 const NEG_I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: -0.707106781f32 };
 
 const SQRT_TWO_OVER_TWO: f32 = std::f32::consts::SQRT_2 / 2f32;
+
 
 pub struct Qubit {
     pub state: Matrix
@@ -117,28 +117,19 @@ impl Qubit {
     // X Gate - 'Not' Gate
     #[allow(non_snake_case)]
     pub fn X ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
-            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-        ]) * self.state.clone();
+        self.state = Matrix::X() * self.state.clone();
         self
     }
     // Y Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Y ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: -1f32 }],
-            vec![ComplexNumber { a: 0f32, b: 1f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-        ]) * self.state.clone();
+        self.state = Matrix::Y() * self.state.clone();
         self
     }
     // Z Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Z ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: -1f32, b: 0f32 }],
-        ]) * self.state.clone();
+        self.state = Matrix::Z() * self.state.clone();
         self
     }
 
@@ -146,10 +137,7 @@ impl Qubit {
     // H Gate - 'Superposition' gate
     #[allow(non_snake_case)]
     pub fn H ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ONE_OVER_SQRT_TWO, ONE_OVER_SQRT_TWO],
-            vec![ONE_OVER_SQRT_TWO, NEG_ONE_OVER_SQRT_TWO]
-        ]) * self.state.clone();
+        self.state = Matrix::H() * self.state.clone();
         self
     }
 
@@ -157,19 +145,13 @@ impl Qubit {
     // S Gate - 'i phase flip'
     #[allow(non_snake_case)]
     pub fn S ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 1f32 }]
-        ]) * self.state.clone();
+        self.state = Matrix::S() * self.state.clone();
         self
     }
     // T Gate - '45 deg' (might be wrong)
     #[allow(non_snake_case)]
     pub fn T ( &mut self ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: SQRT_TWO_OVER_TWO, b: SQRT_TWO_OVER_TWO }]
-        ]) * self.state.clone();
+        self.state = Matrix::T() * self.state.clone();
         self
     }
 
@@ -177,37 +159,25 @@ impl Qubit {
     // R sub x gate - 'X rotation'
     #[allow(non_snake_case)]
     pub fn R_x( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }, ComplexNumber { a: 0f32, b: -(theta / 2f32).sin() }],
-            vec![ComplexNumber { a: 0f32, b: -(theta / 2f32).sin() }, ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }]
-        ]) * self.state.clone();
+        self.state = Matrix::R_x(theta) * self.state.clone();
         self
     }
     // R sub y gate - 'Y rotation'
     #[allow(non_snake_case)]
     pub fn R_y( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }, ComplexNumber { a: -(theta / 2f32).sin(), b: 0f32 }],
-            vec![ComplexNumber { a: (theta / 2f32).sin(), b: 0f32 }, ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }]
-        ]) * self.state.clone();
+        self.state = Matrix::R_y( theta ) * self.state.clone();
         self
     }
     // R sub z gate - 'Z rotation'
     #[allow(non_snake_case)]
     pub fn R_z( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: (-theta / 2f32).cos(), b: (-theta / 2f32).sin() }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: (theta / 2f32).cos(), b: (theta / 2f32).sin() }]
-        ]) * self.state.clone();
+        self.state = Matrix::R_z( theta ) * self.state.clone();
         self
     }
     // R sub 1 gate - 'Arbitrary phase gate'
     #[allow(non_snake_case)]
     pub fn R_1( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::new(vec![
-            vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
-            vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: theta.cos(), b: theta.sin() }]
-        ]) * self.state.clone();
+        self.state = Matrix::R_1( theta ) * self.state.clone();
         self
     }
 }
