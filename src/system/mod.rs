@@ -5,6 +5,7 @@ use crate::{
 };
 use qubit::Qubit;
 use matrix::Matrix;
+use matrix::Gate;
 use complex::ComplexNumber;
 
 pub struct System {
@@ -117,29 +118,18 @@ impl System {
         
         for (idx, matrix) in inputs {
             while idx > current_idx {
-                base_matrix = base_matrix.tensor_product( &Matrix::new(vec![
-                    vec![ComplexNumber {a: 1f32, b: 0f32}, ComplexNumber {a: 0f32, b: 0f32}],
-                    vec![ComplexNumber {a: 0f32, b: 0f32}, ComplexNumber {a: 1f32, b: 0f32}]
-                ] ) );
+                base_matrix = base_matrix.tensor_product( &Gate::I() );
                 current_idx += 1;
             }
-            println!("To_TEN: {:?}", matrix);
-            println!("To_TEN_BASE: {:?}", base_matrix);
+
             base_matrix = base_matrix.tensor_product( &matrix );
-            println!("RESULT: {:?}", base_matrix);
             current_idx += 1;
         }
 
         while current_idx < self.state.len() {
-            println!("HUUUH {:?}", base_matrix);
-            let to_mul = &Matrix::new(vec![
-                vec![ComplexNumber {a: 1f32, b: 0f32}, ComplexNumber {a: 0f32, b: 0f32}],
-                vec![ComplexNumber {a: 0f32, b: 0f32}, ComplexNumber {a: 1f32, b: 0f32}]
-            ] );
-            println!("{:?}", to_mul);
-            base_matrix = to_mul.tensor_product( &base_matrix );
-            println!("?");
+            let to_mul: &Matrix = &Gate::I();
 
+            base_matrix = to_mul.tensor_product( &base_matrix );
 
             current_idx += 1;
         }

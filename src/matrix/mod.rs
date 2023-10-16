@@ -480,79 +480,84 @@ impl Matrix {
 
         ret
     }
+}
 
+
+
+pub struct Gate {}
+impl Gate {
     /* Gate Constants */
-    pub fn I () -> Self {
-        Self::new(vec![
+    pub fn I () -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
         ])
     }
 
-    pub fn X () -> Self { 
-        Self::new(vec![
+    pub fn X () -> Matrix { 
+        Matrix::new(vec![
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 1f32, b: 0f32 }],
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
         ])
     }
-    pub fn Y () -> Self {
-        Self::new(vec![
+    pub fn Y () -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: -1f32 }],
             vec![ComplexNumber { a: 0f32, b: 1f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
         ])
     }
-    pub fn Z () -> Self {
-        Self::new(vec![
+    pub fn Z () -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: -1f32, b: 0f32 }],
         ])
     }
 
-    pub fn H () -> Self {
-        Self::new(vec![
+    pub fn H () -> Matrix {
+        Matrix::new(vec![
             vec![ONE_OVER_SQRT_TWO, ONE_OVER_SQRT_TWO],
             vec![ONE_OVER_SQRT_TWO, NEG_ONE_OVER_SQRT_TWO]
         ])
     }
-    pub fn S () -> Self {
-        Self::new(vec![
+    pub fn S () -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 1f32 }]
         ])
     }
-    pub fn T () -> Self {
-        Self::new(vec![
+    pub fn T () -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: SQRT_TWO_OVER_TWO, b: SQRT_TWO_OVER_TWO }]
         ])
     }
 
-    pub fn R_x ( theta: f32 ) -> Self {
-        Self::new(vec![
+    pub fn R_x ( theta: f32 ) -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }, ComplexNumber { a: 0f32, b: -(theta / 2f32).sin() }],
             vec![ComplexNumber { a: 0f32, b: -(theta / 2f32).sin() }, ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }]
         ])
     }
-    pub fn R_y ( theta: f32 ) -> Self {
-        Self::new(vec![
+    pub fn R_y ( theta: f32 ) -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }, ComplexNumber { a: -(theta / 2f32).sin(), b: 0f32 }],
             vec![ComplexNumber { a: (theta / 2f32).sin(), b: 0f32 }, ComplexNumber { a: (theta / 2f32).cos(), b: 0f32 }]
         ])
     }
-    pub fn R_z ( theta: f32 ) -> Self {
-        Self::new(vec![
+    pub fn R_z ( theta: f32 ) -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: (-theta / 2f32).cos(), b: (-theta / 2f32).sin() }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: (theta / 2f32).cos(), b: (theta / 2f32).sin() }]
         ])
     }
-    pub fn R_1 ( theta: f32 ) -> Self {
-        Self::new(vec![
+    pub fn R_1 ( theta: f32 ) -> Matrix {
+        Matrix::new(vec![
             vec![ComplexNumber { a: 1f32, b: 0f32 }, ComplexNumber { a: 0f32, b: 0f32 }],
             vec![ComplexNumber { a: 0f32, b: 0f32 }, ComplexNumber { a: theta.cos(), b: theta.sin() }]
         ])
     }
-}
 
+}
 /*
 mod complex;
 mod matrix;

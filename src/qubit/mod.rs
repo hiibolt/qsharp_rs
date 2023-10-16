@@ -4,6 +4,7 @@ use crate::{
 };
 
 use matrix::Matrix;
+use matrix::Gate;
 use complex::ComplexNumber;
 
 const ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0.707106781f32, b: 0f32 };
@@ -12,7 +13,6 @@ const NEG_ONE_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: -0.707106781f32,
 const NEG_I_OVER_SQRT_TWO: ComplexNumber = ComplexNumber { a: 0f32, b: -0.707106781f32 };
 
 const SQRT_TWO_OVER_TWO: f32 = std::f32::consts::SQRT_2 / 2f32;
-
 
 pub struct Qubit {
     pub state: Matrix
@@ -117,19 +117,19 @@ impl Qubit {
     // X Gate - 'Not' Gate
     #[allow(non_snake_case)]
     pub fn X ( &mut self ) -> &Self {
-        self.state = Matrix::X() * self.state.clone();
+        self.state = Gate::X() * self.state.clone();
         self
     }
     // Y Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Y ( &mut self ) -> &Self {
-        self.state = Matrix::Y() * self.state.clone();
+        self.state = Gate::Y() * self.state.clone();
         self
     }
     // Z Gate - 'TODO'
     #[allow(non_snake_case)]
     pub fn Z ( &mut self ) -> &Self {
-        self.state = Matrix::Z() * self.state.clone();
+        self.state = Gate::Z() * self.state.clone();
         self
     }
 
@@ -137,7 +137,7 @@ impl Qubit {
     // H Gate - 'Superposition' gate
     #[allow(non_snake_case)]
     pub fn H ( &mut self ) -> &Self {
-        self.state = Matrix::H() * self.state.clone();
+        self.state = Gate::H() * self.state.clone();
         self
     }
 
@@ -145,13 +145,13 @@ impl Qubit {
     // S Gate - 'i phase flip'
     #[allow(non_snake_case)]
     pub fn S ( &mut self ) -> &Self {
-        self.state = Matrix::S() * self.state.clone();
+        self.state = Gate::S() * self.state.clone();
         self
     }
     // T Gate - '45 deg' (might be wrong)
     #[allow(non_snake_case)]
     pub fn T ( &mut self ) -> &Self {
-        self.state = Matrix::T() * self.state.clone();
+        self.state = Gate::T() * self.state.clone();
         self
     }
 
@@ -159,25 +159,25 @@ impl Qubit {
     // R sub x gate - 'X rotation'
     #[allow(non_snake_case)]
     pub fn R_x( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::R_x(theta) * self.state.clone();
+        self.state = Gate::R_x(theta) * self.state.clone();
         self
     }
     // R sub y gate - 'Y rotation'
     #[allow(non_snake_case)]
     pub fn R_y( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::R_y( theta ) * self.state.clone();
+        self.state = Gate::R_y( theta ) * self.state.clone();
         self
     }
     // R sub z gate - 'Z rotation'
     #[allow(non_snake_case)]
     pub fn R_z( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::R_z( theta ) * self.state.clone();
+        self.state = Gate::R_z( theta ) * self.state.clone();
         self
     }
     // R sub 1 gate - 'Arbitrary phase gate'
     #[allow(non_snake_case)]
     pub fn R_1( &mut self, theta: f32 ) -> &Self {
-        self.state = Matrix::R_1( theta ) * self.state.clone();
+        self.state = Gate::R_1( theta ) * self.state.clone();
         self
     }
 }
