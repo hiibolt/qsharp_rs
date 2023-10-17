@@ -30,9 +30,9 @@ use std::ops::{
 
 #[derive(Clone, PartialEq)]
 pub struct Matrix {
-    value: Vec<Vec<ComplexNumber>>,
-    rows: usize,
-    cols: usize
+    pub value: Vec<Vec<ComplexNumber>>,
+    pub rows: usize,
+    pub cols: usize
 }
 impl std::fmt::Debug for Matrix {
     fn fmt ( &self, f: &mut std::fmt::Formatter<'_> ) -> std::fmt::Result {
@@ -479,6 +479,18 @@ impl Matrix {
         ret.value[1][0] = (eigenvalue - a) / b;
 
         ret
+    }
+    pub fn inverse_tensor_product ( &self, old_base: Self ) -> Self {
+        let mult_rows = self.rows / old_base.rows;
+        let mult_cols = self.cols / old_base.cols;
+        let mut multiplicand = Self::from_dimensions( mult_rows, mult_cols );
+
+        for row_idx in 0..multiplicand.value.len() {
+            for col_idx in 0..multiplicand[row_idx].len() {
+            }
+        }
+        
+        multiplicand
     }
 }
 
