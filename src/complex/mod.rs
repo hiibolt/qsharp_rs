@@ -99,7 +99,7 @@ impl Div<ComplexNumber> for ComplexNumber {
     type Output = Self;
 
     fn div ( self, to_div: ComplexNumber ) -> Self {
-        if self.a == 0f32 && to_div.b == 0f32 {
+        if to_div.a == 0f32 && to_div.b == 0f32 {
             panic!("Denominator cannot be zero!");
         }
 

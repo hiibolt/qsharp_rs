@@ -452,6 +452,23 @@ fn main() {
         
         system.dump();
     }
+
+    /* Other */
+    fn inverse_tensor_product_test () {
+        let a = Matrix::new(vec![
+            vec![ComplexNumber{ a: 0f32, b: 0f32 }],
+            vec![ComplexNumber{ a: 0f32, b: 1f32 }],
+            vec![ComplexNumber{ a: 0f32, b: 0f32 }]
+        ]);
+        let b = Matrix::new(vec![
+            vec![ComplexNumber{ a: 1f32, b: 0f32 }],
+            vec![ComplexNumber{ a: 0f32, b: 0f32 }]
+        ]);
+        let product = a.tensor_product( &b );
+
+        let assumed_a = product.inverse_tensor_product( a.clone() );
+        println!("Assumed A: {:?}", assumed_a);
+    }
     /* Exercise 5: */ 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
     println!("Task 1.1:\n--------------------------");
@@ -523,4 +540,9 @@ fn main() {
 
     println!("MQG Exercise 4:\n--------------------------");
     mqg_exercise_4();
+
+
+    /* OTHER */
+    println!("Demonstration of the inverse tensor product");
+    inverse_tensor_product_test();
 }

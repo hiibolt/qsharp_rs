@@ -484,9 +484,29 @@ impl Matrix {
         let mult_rows = self.rows / old_base.rows;
         let mult_cols = self.cols / old_base.cols;
         let mut multiplicand = Self::from_dimensions( mult_rows, mult_cols );
-
-        for row_idx in 0..multiplicand.value.len() {
-            for col_idx in 0..multiplicand[row_idx].len() {
+        
+        if old_base.value.iter().fold( ComplexNumber{ a: 0f32, b: 0f32}, |acc, x| {
+            acc + x.iter().fold( ComplexNumber{ a: 0f32, b: 0f32 }, |acc, x| acc + x.clone() )
+        })  == (ComplexNumber{ a: 0f32, b: 0f32}) {
+            panic!("Base MUST have at least one non-zero value to produce a multiplicative array!");
+        }
+        for row_idx in 0..self.value.len() {
+            for col_idx in 0..self[row_idx].len() {
+                let result_row_idx = if (row_idx > mult_rows - 1) { ( (row_idx) % mult_rows) } else { row_idx };
+                let result_col_idx = if (col_idx > mult_cols - 1) { ( (col_idx) % mult_cols) } else { col_idx };
+                
+                let base_row_idx = row_idx / mult_rows;
+                let base_col_idx = col_idx / mult_cols;
+ 
+                if old_base[ base_row_idx][ base_col_idx ] == (ComplexNumber { a: 0f32, b: 0f32 }) {
+                    if old_base[ base_row_idx ][ base_col_idx ] != (ComplexNumber { a: 0f32, b: 0f32 }) {
+                        multiplicand[ result_row_idx ][ result_col_idx ] = ComplexNumber { a: 0f32, b: 0f32 };
+                        continue;
+                    }
+                    continue;
+                }
+                
+                multiplicand[ result_row_idx ][ result_col_idx ] = self[row_idx][col_idx].clone() / old_base[ base_row_idx ][ base_col_idx ].clone();
             }
         }
         
