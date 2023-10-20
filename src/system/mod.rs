@@ -112,6 +112,7 @@ impl System {
         }
     }
 
+    /* Gate Build and Application Logic */
     pub fn build_gate( &self, inputs: Vec<(usize, Matrix)> ) -> Matrix {
         let mut current_idx: usize = 0usize;
         let mut base_matrix = Matrix::new(vec![vec![ComplexNumber { a: 1f32, b: 0f32 }]]);
