@@ -492,8 +492,8 @@ impl Matrix {
         }
         for row_idx in 0..self.value.len() {
             for col_idx in 0..self[row_idx].len() {
-                let result_row_idx = if (row_idx > mult_rows - 1) { ( (row_idx) % mult_rows) } else { row_idx };
-                let result_col_idx = if (col_idx > mult_cols - 1) { ( (col_idx) % mult_cols) } else { col_idx };
+                let result_row_idx = if row_idx > mult_rows - 1 { (row_idx) % mult_rows } else { row_idx };
+                let result_col_idx = if col_idx > mult_cols - 1 { (col_idx) % mult_cols } else { col_idx };
                 
                 let base_row_idx = row_idx / mult_rows;
                 let base_col_idx = col_idx / mult_cols;

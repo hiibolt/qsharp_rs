@@ -443,7 +443,7 @@ fn main() {
         system[0].unwrap_qubit().X();
         system[1].unwrap_qubit().X();
 
-        system.CONTROLLED_X( 0, vec![1, 2] );
+        //system.CONTROLLED_X( 0, vec![1, 2] );
 
         println!("Built Gate: {:?}", system.build_gate( vec![(1, Matrix::new(vec![
             vec![ComplexNumber{ a: 1f32, b: 0f32 }, ComplexNumber{ a: 0f32, b: 0f32}],
@@ -468,6 +468,26 @@ fn main() {
 
         let assumed_a = product.inverse_tensor_product( a.clone() );
         println!("Assumed A: {:?}", assumed_a);
+    }
+    fn linear_combination_test () {
+        let mut system = System::new();
+
+        system.allocate();
+        system[0].unwrap_qubit().X();
+        system[0].unwrap_qubit().T();
+        system[0].unwrap_qubit().Z();
+        system.allocate();
+
+        println!("Before dump:");
+        system.dump_register(0);
+        system.dump_register(1);
+
+        system.CONTROLLED_X( 0, 1 );
+        println!("After dump:");
+        system.dump_register(0);
+        system.dump_register(1);
+
+        system.dump();
     }
     /* Exercise 5: */ 
     println!("QUANTUM KATA EXERCISES (INCOMPLETE!)");
@@ -545,4 +565,7 @@ fn main() {
     /* OTHER */
     println!("Demonstration of the inverse tensor product");
     inverse_tensor_product_test();
+
+    println!("Demonstration of the controlled NOT gate via linear combination");
+    linear_combination_test();
 }

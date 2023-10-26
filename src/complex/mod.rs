@@ -122,7 +122,7 @@ impl DivAssign<f32> for ComplexNumber {
 }
 impl DivAssign<ComplexNumber> for ComplexNumber {
     fn div_assign ( &mut self, to_div: ComplexNumber ) {
-        if self.a == 0f32 && to_div.b == 0f32 {
+        if to_div.a == 0f32 && to_div.b == 0f32 {
             panic!("Denominator cannot be zero!");
         }
 

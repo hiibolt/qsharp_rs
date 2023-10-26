@@ -181,34 +181,30 @@ impl System {
         self.state[register_1_ind] = StateEntry::EntangledState(final_result);
         self.state[register_2_ind] = StateEntry::EntangledStatePtr(register_1_ind);
     }
-    pub fn CONTROLLED_X ( &mut self, target: usize, control: Vec<usize> ) -> &Self {
-        let dim = 2usize.pow((control.len() as u32) + 1u32);
-        let row = vec![ComplexNumber { a: 0f32, b: 0f32 }; dim];
-        let mut base_matrix = Matrix::new(vec![row; dim]);
+    pub fn CONTROLLED_X ( &mut self, control_idx: usize, target_idx: usize ) -> &Self {
+        let control: Matrix = self[control_idx].unwrap_qubit().state.clone();
+        let target: Matrix = self[target_idx].unwrap_qubit().state.clone();
+        
+        let control_percentage: f32 = control[1][0].a.powi(2) + control[1][0].b.powi(2); 
+        println!("Attempting Controlled X with {:?} ({}%) as control on {:?}", control, control_percentage, target);
 
-        for i in 0..dim {
-            base_matrix[i][i] = ComplexNumber { a: 1f32, b: 0f32 };
-        }
-        base_matrix[dim - 2][dim - 2] = ComplexNumber { a: 0f32, b: 0f32 }; // Top left
-        base_matrix[dim - 2][dim - 1] = ComplexNumber { a: 1f32, b: 0f32 }; // Top right
-        base_matrix[dim - 1][dim - 2] = ComplexNumber { a: 1f32, b: 0f32 }; // Bottom left
-        base_matrix[dim - 1][dim - 1] = ComplexNumber { a: 0f32, b: 0f32 }; // Bottom right
-        println!("[Debug]: Gate Matrix {:?}", base_matrix);
-
-        let to_mult = control.into_iter().fold(
-            self.state[target].unwrap_qubit().state.clone(), 
-            |acc, next_index| {
-                let ret = acc.tensor_product(&self.state[next_index]
-                                        .unwrap_qubit()
-                                        .state);
-                self.state[next_index] = StateEntry::EntangledStatePtr(next_index);
-
-                ret
+        let mut identity_portion: Matrix = Gate::I();
+        for row in 0..identity_portion.value.len() {
+            for col in 0..identity_portion[row].len() {
+                identity_portion.value[row][col] *= (1f32 - control_percentage).sqrt();
             }
-        );
-        println!("[Debug]: Target Registers {:?}", to_mult);
+        }
+        println!("Identity Portion: {:?}", identity_portion);
 
-        self.state[target] = StateEntry::EntangledState( base_matrix * to_mult );
+        let mut gate_portion: Matrix = Gate::X();
+        for row in 0..gate_portion.value.len() {
+            for col in 0..gate_portion[row].len() {
+                gate_portion[row][col] *= control_percentage.sqrt();
+            }
+        }
+        println!("Gate Portion: {:?}", gate_portion);
+
+        self[target_idx].unwrap_qubit().state = (identity_portion + gate_portion) * self[target_idx].unwrap_qubit().state.clone();
         self
     }
 
