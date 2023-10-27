@@ -489,9 +489,11 @@ fn main() {
             (2, Gate::Standard(Gates::X())),
         ]);
 
+        println!(":");
         system.dump_register(0);
         system.dump_register(1);
         system.dump_register(2);
+        println!(":");
         
         system.dump();
     }
