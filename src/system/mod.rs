@@ -6,11 +6,13 @@ use crate::{
 use qubit::Qubit;
 use matrix::Matrix;
 use matrix::Gate;
+use matrix::Gates;
 use complex::ComplexNumber;
 
 pub struct System {
     state: Vec<StateEntry>,
 }
+#[derive(Debug)]
 pub enum StateEntry {
     StandardQubit(Qubit),
     EntangledState(Matrix),
@@ -41,7 +43,8 @@ impl System {
     pub fn dump ( self ) {
         println!("Machine Dump:");
         let mut base;
-        match &self.state[0] {
+        println!("{:?}", self.state[self.state.len() - 1]);
+        match &self.state[self.state.len() - 1] {
             StateEntry::StandardQubit(q) => {
                 base = q.state.clone();
             },
@@ -51,7 +54,8 @@ impl System {
             StateEntry::EntangledStatePtr(_) => panic!("Impossible")
         }
         for i in 1..self.state.len() {
-            match &self.state[i] {
+            println!("hii");
+            match &self.state[self.state.len() - i] {
                 StateEntry::StandardQubit(q) => {
                     base = base.tensor_product(&q.state);
                 },
@@ -119,7 +123,7 @@ impl System {
         
         for (idx, matrix) in inputs {
             while idx > current_idx {
-                base_matrix = base_matrix.tensor_product( &Gate::I() );
+                base_matrix = base_matrix.tensor_product( &Gates::I() );
                 current_idx += 1;
             }
 
@@ -128,7 +132,7 @@ impl System {
         }
 
         while current_idx < self.state.len() {
-            let to_mul: &Matrix = &Gate::I();
+            let to_mul: &Matrix = &Gates::I();
 
             base_matrix = to_mul.tensor_product( &base_matrix );
 
@@ -188,7 +192,7 @@ impl System {
         let control_percentage: f32 = control[1][0].a.powi(2) + control[1][0].b.powi(2); 
         println!("Attempting Controlled X with {:?} ({}%) as control on {:?}", control, control_percentage, target);
 
-        let mut identity_portion: Matrix = Gate::I();
+        let mut identity_portion: Matrix = Gates::I();
         for row in 0..identity_portion.value.len() {
             for col in 0..identity_portion[row].len() {
                 identity_portion.value[row][col] *= (1f32 - control_percentage).sqrt();
@@ -196,7 +200,7 @@ impl System {
         }
         println!("Identity Portion: {:?}", identity_portion);
 
-        let mut gate_portion: Matrix = Gate::X();
+        let mut gate_portion: Matrix = Gates::X();
         for row in 0..gate_portion.value.len() {
             for col in 0..gate_portion[row].len() {
                 gate_portion[row][col] *= control_percentage.sqrt();
@@ -205,6 +209,52 @@ impl System {
         println!("Gate Portion: {:?}", gate_portion);
 
         self[target_idx].unwrap_qubit().state = (identity_portion + gate_portion) * self[target_idx].unwrap_qubit().state.clone();
+        self
+    }
+
+    pub fn apply ( &mut self, gates: Vec<(usize, Gate)> ) -> &mut Self {
+        let mut control_percentage = 1f32;
+        let mut swap_idx: Option<usize> = None;
+        for (qubit_idx, gate) in gates {
+            match gate {
+                Gate::Control => {
+                    let control = self[qubit_idx].unwrap_qubit().state.clone();
+                    control_percentage *= control[1][0].a.powi(2) + control[1][0].b.powi(2); 
+                },
+                Gate::AntiControl => {
+                    let control = self[qubit_idx].unwrap_qubit().state.clone();
+                    control_percentage *= 1f32 - (control[1][0].a.powi(2) + control[1][0].b.powi(2)); 
+                },
+                Gate::Swap(incoming_idx) => {
+                    /*
+                    if let Some(outgoing_idx) = swap_idx {
+                        let 
+                    } else { 
+                        swap_idx = Some(incoming_idx);
+                    }*/
+                },
+                Gate::Standard(gate_matrix) => {
+                    let mut identity_portion: Matrix = Gates::I();
+                    let mut gate_portion: Matrix = gate_matrix.clone();
+                    
+                    for row in 0..identity_portion.value.len() {
+                        for col in 0..identity_portion[row].len() {
+                            identity_portion.value[row][col] *= (1f32 - control_percentage).sqrt();
+                        }
+                    }
+                    
+                    for row in 0..gate_portion.value.len() {
+                        for col in 0..gate_portion[row].len() {
+                            gate_portion[row][col] *= control_percentage.sqrt();
+                        }
+                    }
+
+                    println!("Applying to qubit register {} with control: {} - {:?}", qubit_idx, control_percentage, gate_matrix);
+                    self[qubit_idx].unwrap_qubit().apply( identity_portion + gate_portion );
+                    self.dump_register(qubit_idx);
+                }
+            }
+        }
         self
     }
 

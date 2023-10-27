@@ -407,8 +407,11 @@ fn main() {
         system.allocate();
         system.allocate();
 
-        system[0].unwrap_qubit().H();
-        system.CNOT(0, 1);
+        system.apply(vec![
+            (0, Gate::Standard(Gates::H())),
+            (0, Gate::Control),
+            (1, Gate::Standard(Gates::X())),
+        ]);
 
         system.dump();
     }
@@ -425,7 +428,7 @@ fn main() {
         system.dump_register(0);
         system.dump_register(1);
 
-        system.SWAP(0, 1);
+        //system.SWAP(0, 1);
 
         system.dump_register(0);
         system.dump_register(1);
@@ -473,20 +476,23 @@ fn main() {
         let mut system = System::new();
 
         system.allocate();
-        system[0].unwrap_qubit().X();
-        system[0].unwrap_qubit().T();
-        system[0].unwrap_qubit().Z();
+        system.allocate();
         system.allocate();
 
-        println!("Before dump:");
+        system.apply(vec![
+            (0, Gate::Standard(Gates::X())),
+            (0, Gate::Standard(Gates::T())),
+            (0, Gate::Standard(Gates::Z())),
+            (1, Gate::Standard(Gates::H())),
+            (0, Gate::Control),
+            (1, Gate::Control),
+            (2, Gate::Standard(Gates::X())),
+        ]);
+
         system.dump_register(0);
         system.dump_register(1);
-
-        system.CONTROLLED_X( 0, 1 );
-        println!("After dump:");
-        system.dump_register(0);
-        system.dump_register(1);
-
+        system.dump_register(2);
+        
         system.dump();
     }
     /* Exercise 5: */ 

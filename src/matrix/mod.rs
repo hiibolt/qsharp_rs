@@ -515,9 +515,14 @@ impl Matrix {
 }
 
 
-
-pub struct Gate {}
-impl Gate {
+pub enum Gate {
+    Control,
+    AntiControl,
+    Swap(usize),
+    Standard(Matrix)
+}
+pub struct Gates {}
+impl Gates {
     /* Gate Constants */
     pub fn I () -> Matrix {
         Matrix::new(vec![
