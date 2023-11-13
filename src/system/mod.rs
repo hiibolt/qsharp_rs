@@ -54,8 +54,8 @@ impl System {
             StateEntry::EntangledStatePtr(_) => panic!("Impossible")
         }
         for i in 0..self.state.len() - 1 {
-            println!("{}: {:?}", self.state.len() - i, self.state[self.state.len() - i]);
-            match &self.state[self.state.len() - i] {
+            println!("{}: {:?}", self.state.len() - i - 1, self.state[self.state.len() - i - 1]);
+            match &self.state[self.state.len() - i - 1] {
                 StateEntry::StandardQubit(q) => {
                     base = base.tensor_product(&q.state);
                 },
