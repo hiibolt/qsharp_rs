@@ -2,6 +2,8 @@
 
 Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy, and packaged by Nix.
 
+This project was primarily a means to learn Rust and choice topics in quantum compilers.
+
 ## Cheat Sheets
 
 ### Important Qubit States:
@@ -17,9 +19,6 @@ Intended to end as a quantum circuit simulator written in Rust, rendered in Bevy
 
 #### Multi-Qubit Basis States:
 ![image](https://github.com/hiibolt/qsharp_rs/assets/91273156/1ccf0381-f6d0-492f-b01a-d1e3c42cd522)
-
-
-
 
 ## [Home Repository](https://github.com/microsoft/QuantumKatas/tree/c15d99e4e505a67ef58c2c60ae50d11b0d09a443)
 [Complex Arithmetic](https://github.com/microsoft/QuantumKatas/tree/c15d99e4e505a67ef58c2c60ae50d11b0d09a443/tutorials/ComplexArithmetic)
@@ -55,7 +54,3 @@ This allows fast computation without ever using matrices, which can be seen here
 ### Example Gate Usage:
 Given a system of 3 qubits, in order to ignore the first and third qubits and only apply the X-Gate to the second qubit, you would build a gate as follows:
 $$(I \otimes X \otimes I) * Q_s$$
-
-## Ranting
-- legit half of quantum circuitry documentation feels like it was obfusicated?? why are they gatekeeping this stuff?? call me a Microsoft meatrider but shoutout for them for being the only ones to properly document anything
-
